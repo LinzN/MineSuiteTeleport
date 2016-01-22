@@ -1,0 +1,95 @@
+name: cookieApiTeleport
+version: ${project.version}
+description: Teleportplugin
+authors: [Kekshaus]
+main: de.kekshaus.cookieApi.teleport.Teleportplugin
+
+commands:
+  setspawn:
+    description: Set a SpawnType serverspawn
+  setlobby:
+    description: Set a SpawnType lobby
+  lobby:
+    description: Teleport to Lobby.
+    aliases: [hub, proxyspawn, globalspawn, gs]
+  spawn:
+    description: Teleport to a SpawnType.
+    aliases: [ss, ws, serverspawn, worldspawn]
+  dellobby:
+    description: Delete a SpawnType
+  delspawn:
+    description: Delete a SpawnType
+  tp:
+    description: Delete a SpawnType
+  tphere:
+    description: Delete a SpawnType
+  back:
+    description: Delete a SpawnType
+  tpahere:
+    description: Delete a SpawnType
+  tpa:
+    description: Delete a SpawnType
+  tpaccept:
+    description: Delete a SpawnType
+  tpdeny:
+    description: Delete a SpawnType
+permissions:
+    cookieApi.teleport.team:
+        description: Alle Permissions
+        children:
+            cookieApi.teleport.user: true
+            cookieApi.teleport.setspawn: true
+            cookieApi.teleport.delspawn: true
+            cookieApi.teleport.dellobby: true
+            cookieApi.teleport.setlobby: true
+            cookieApi.teleport.tp: true
+            cookieApi.teleport.tphere: true
+    cookieApi.teleport.user:
+        description: Alle Permissions
+        children:
+            cookieApi.teleport.lobby: true
+            cookieApi.teleport.spawn: true
+            cookieApi.teleport.back: true
+            cookieApi.teleport.tpa: true
+            cookieApi.teleport.tpahere: true
+            cookieApi.teleport.tpaccept: true
+            cookieApi.teleport.tpdeny: true
+    cookieApi.teleport.lobby:
+        description: Teleport to lobby
+        default: op
+    cookieApi.teleport.setspawn:
+        description: Teleport to lobby
+        default: op
+    cookieApi.teleport.setlobby:
+        description: Teleport to lobby
+        default: op
+    cookieApi.teleport.delspawn:
+        description: Teleport to lobby
+        default: op
+    cookieApi.teleport.dellobby:
+        description: Teleport to lobby
+        default: op
+    cookieApi.teleport.spawn:
+        description: Teleport to spawn
+        default: op
+    cookieApi.teleport.back:
+        description: Teleport to spawn
+        default: op
+    cookieApi.teleport.tp:
+        description: Teleport to spawn
+        default: op
+    cookieApi.teleport.tphere:
+        description: Teleport to spawn
+        default: op
+    cookieApi.teleport.tpa:
+        description: Teleport to spawn
+        default: op
+    cookieApi.teleport.tpahere:
+        description: Teleport to spawn
+        default: op
+    cookieApi.teleport.tpaccept:
+        description: Teleport to spawn
+        default: op
+    cookieApi.teleport.tpdeny:
+        description: Teleport to spawn
+        default: op
