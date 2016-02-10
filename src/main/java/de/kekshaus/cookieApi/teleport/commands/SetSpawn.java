@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
 import de.kekshaus.cookieApi.bukkit.MessageDB;
-import de.kekshaus.cookieApi.teleport.Teleportplugin;
 import de.kekshaus.cookieApi.teleport.database.ConnectionInject;
 
 public class SetSpawn implements CommandExecutor {
