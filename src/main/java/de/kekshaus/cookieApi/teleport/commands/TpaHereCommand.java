@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.MessageDB;
-import de.kekshaus.cookieApi.bukkit.managerApi.TeleportApi;
+import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
 
 public class TpaHereCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -24,7 +24,7 @@ public class TpaHereCommand implements CommandExecutor {
 						Player player = (Player) sender;
 						if ((args.length >= 1)) {
 							String target = args[0].toLowerCase();
-							TeleportApi.tpaHereRequest(player, target);
+							TPStreamOutApi.tpaHereRequest(player, target);
 							return;
 						} else {
 							sender.sendMessage("Du musst einen Player angeben!");

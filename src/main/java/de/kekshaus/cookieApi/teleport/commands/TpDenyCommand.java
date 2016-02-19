@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.MessageDB;
-import de.kekshaus.cookieApi.bukkit.managerApi.TeleportApi;
+import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
 
 public class TpDenyCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -22,7 +22,7 @@ public class TpDenyCommand implements CommandExecutor {
 				public void run() {
 					if (sender instanceof Player) {
 						Player player = (Player) sender;
-						TeleportApi.tpDeny(player.getName());
+						TPStreamOutApi.tpDeny(player.getName());
 						return;
 
 					}

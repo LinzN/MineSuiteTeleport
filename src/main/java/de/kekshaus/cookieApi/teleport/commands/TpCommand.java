@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.MessageDB;
-import de.kekshaus.cookieApi.bukkit.managerApi.TeleportApi;
+import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
 
 public class TpCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -26,14 +26,14 @@ public class TpCommand implements CommandExecutor {
 							if ((args.length == 1)) {
 								String target = args[0].toLowerCase();
 
-								TeleportApi.teleportToPlayer(player.getName(), target);
+								TPStreamOutApi.teleportToPlayer(player.getName(), target);
 
 								return;
 							} else if ((args.length == 2)) {
 								String target1 = args[0].toLowerCase();
 								String target2 = args[1].toLowerCase();
 
-								TeleportApi.teleportToPlayer(target1, target2);
+								TPStreamOutApi.teleportToPlayer(target1, target2);
 
 								return;
 							} else {

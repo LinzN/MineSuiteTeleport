@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
 import de.kekshaus.cookieApi.bukkit.MessageDB;
-import de.kekshaus.cookieApi.bukkit.managerApi.OtherApi;
-import de.kekshaus.cookieApi.bukkit.managerApi.TeleportApi;
 import de.kekshaus.cookieApi.teleport.Teleportplugin;
+import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
 import de.kekshaus.cookieApi.teleport.database.ConnectionInject;
+import de.kekshaus.cookieApi.teleport.database.TeleportHASHDB;
 import net.md_5.bungee.api.ChatColor;
 
 public class LobbyCommand implements CommandExecutor {
@@ -33,7 +33,7 @@ public class LobbyCommand implements CommandExecutor {
 
 						if (ConnectionInject.isLobby(spawnName)) {
 							if (!player.hasPermission("cookieApi.bypass")) {
-								OtherApi.lastLocation.put(player, player.getLocation());
+								TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
 								player.sendMessage(MessageDB.TELEPORT_TIMER.replace("{TIME}",
 										String.valueOf(CookieApiBukkit.getWarmUpTime())));
 								Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
@@ -41,8 +41,8 @@ public class LobbyCommand implements CommandExecutor {
 									@Override
 									public void run() {
 
-										Location loc = OtherApi.lastLocation.get(player);
-										OtherApi.lastLocation.remove(player);
+										Location loc = TeleportHASHDB.lastTeleportLocation.get(player);
+										TeleportHASHDB.lastTeleportLocation.remove(player);
 										if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
 											List<String> list = ConnectionInject.getLobby(spawnName);
 											String world = list.get(1);
@@ -52,8 +52,8 @@ public class LobbyCommand implements CommandExecutor {
 											double z = Double.parseDouble(list.get(5));
 											float yaw = Float.parseFloat(list.get(6));
 											float pitch = Float.parseFloat(list.get(7));
-											TeleportApi.sendTeleportToLocationOut(player.getName(), server, world, x, y,
-													z, yaw, pitch);
+											TPStreamOutApi.sendTeleportToLocationOut(player.getName(), server, world, x,
+													y, z, yaw, pitch);
 											return;
 										} else {
 											player.sendMessage(MessageDB.TELEPORT_MOVE_CANCEL);
@@ -71,7 +71,7 @@ public class LobbyCommand implements CommandExecutor {
 								float yaw = Float.parseFloat(list.get(6));
 								float pitch = Float.parseFloat(list.get(7));
 
-								TeleportApi.sendTeleportToLocationOut(player.getName(), server, world, x, y, z, yaw,
+								TPStreamOutApi.sendTeleportToLocationOut(player.getName(), server, world, x, y, z, yaw,
 										pitch);
 
 								return;

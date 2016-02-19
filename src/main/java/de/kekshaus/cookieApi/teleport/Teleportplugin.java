@@ -1,7 +1,6 @@
 package de.kekshaus.cookieApi.teleport;
 
 import org.bukkit.plugin.java.JavaPlugin;
-
 import de.kekshaus.cookieApi.teleport.commands.BackCommand;
 import de.kekshaus.cookieApi.teleport.commands.LobbyCommand;
 import de.kekshaus.cookieApi.teleport.commands.SetLobby;
@@ -14,6 +13,8 @@ import de.kekshaus.cookieApi.teleport.commands.TpHereCommand;
 import de.kekshaus.cookieApi.teleport.commands.TpaCommand;
 import de.kekshaus.cookieApi.teleport.commands.TpaHereCommand;
 import de.kekshaus.cookieApi.teleport.database.MineTeleportDB;
+import de.kekshaus.cookieApi.teleport.listener.BukkitSockTeleportListener;
+import de.kekshaus.cookieApi.teleport.listener.TeleportListener;
 
 public class Teleportplugin extends JavaPlugin {
 	private static Teleportplugin inst;
@@ -21,6 +22,8 @@ public class Teleportplugin extends JavaPlugin {
 	public void onEnable() {
 		inst = this;
 		loadCommands();
+		getServer().getPluginManager().registerEvents(new BukkitSockTeleportListener(), this);
+		getServer().getPluginManager().registerEvents(new TeleportListener(), this);
 	}
 
 	public void onDisable() {

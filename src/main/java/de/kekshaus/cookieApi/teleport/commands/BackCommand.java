@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
 import de.kekshaus.cookieApi.bukkit.MessageDB;
-import de.kekshaus.cookieApi.bukkit.managerApi.OtherApi;
 import de.kekshaus.cookieApi.teleport.Teleportplugin;
+import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
+import de.kekshaus.cookieApi.teleport.database.TeleportHASHDB;
 
 public class BackCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -26,18 +27,18 @@ public class BackCommand implements CommandExecutor {
 				public void run() {
 					if (sender instanceof Player) {
 						if (!player.hasPermission("cookieApi.bypass")) {
-							OtherApi.lastLocation.put(player, player.getLocation());
+							TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
 							player.sendMessage(MessageDB.TELEPORT_TIMER.replace("{TIME}",
 									String.valueOf(CookieApiBukkit.getWarmUpTime())));
 							Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 									new Runnable() {
 								@Override
 								public void run() {
-									Location loc = OtherApi.lastLocation.get(player);
-									OtherApi.lastLocation.remove(player);
+									Location loc = TeleportHASHDB.lastTeleportLocation.get(player);
+									TeleportHASHDB.lastTeleportLocation.remove(player);
 									if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
 
-										OtherApi.sendPlayerBack(sender);
+										TPStreamOutApi.sendPlayerBack(sender);
 										return;
 									} else {
 										player.sendMessage(MessageDB.TELEPORT_MOVE_CANCEL);
@@ -47,7 +48,7 @@ public class BackCommand implements CommandExecutor {
 							}, 20L * CookieApiBukkit.getWarmUpTime());
 						} else {
 
-							OtherApi.sendPlayerBack(sender);
+							TPStreamOutApi.sendPlayerBack(sender);
 
 							return;
 
