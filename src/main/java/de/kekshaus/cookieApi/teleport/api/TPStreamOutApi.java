@@ -5,7 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.kekshaus.cookieApi.bukkit.MessageDB;
+import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
 import de.keks.socket.bukkit.BukkitPlugin;
 import de.keks.socket.core.Channel;
 import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
@@ -91,7 +91,7 @@ public class TPStreamOutApi {
 		if (!player.hasPermission("cookieApi.bypass")) {
 			TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
 			player.sendMessage(
-					MessageDB.TELEPORT_TIMER.replace("{TIME}", String.valueOf(CookieApiBukkit.getWarmUpTime())));
+					GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}", String.valueOf(CookieApiBukkit.getWarmUpTime())));
 			CookieApiBukkit.getInstance().getServer().getScheduler().runTaskLater(CookieApiBukkit.getInstance(),
 					new Runnable() {
 						@Override
@@ -104,7 +104,7 @@ public class TPStreamOutApi {
 								teleportToPlayer(player.getName(), target);
 
 							} else {
-								player.sendMessage(MessageDB.TELEPORT_MOVE_CANCEL);
+								player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
 
 							}
 						}

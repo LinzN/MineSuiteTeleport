@@ -9,7 +9,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.bukkit.MessageDB;
+import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
 import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
 import de.kekshaus.cookieApi.teleport.database.TeleportHASHDB;
 
@@ -47,7 +47,7 @@ public class TeleportListener implements Listener {
 			@Override
 			public void run() {
 				TeleportHASHDB.ignoreTeleport.remove(p);
-				p.sendMessage(MessageDB.Teleport_Teleport);
+				p.sendMessage(GlobalMessageDB.Teleport_Teleport);
 			}
 		}, 20);
 

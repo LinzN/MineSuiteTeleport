@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.bukkit.MessageDB;
+import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
 import de.kekshaus.cookieApi.teleport.database.ConnectionInject;
 
 public class SetLobby implements CommandExecutor {
@@ -51,7 +51,7 @@ public class SetLobby implements CommandExecutor {
 				}
 			});
 		} else {
-			sender.sendMessage(MessageDB.NO_PERMISSIONS);
+			sender.sendMessage(GlobalMessageDB.NO_PERMISSIONS);
 		}
 		return false;
 	}

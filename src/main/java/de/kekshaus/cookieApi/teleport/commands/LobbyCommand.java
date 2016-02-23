@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.bukkit.MessageDB;
+import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
 import de.kekshaus.cookieApi.teleport.Teleportplugin;
 import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
 import de.kekshaus.cookieApi.teleport.database.ConnectionInject;
@@ -34,7 +34,7 @@ public class LobbyCommand implements CommandExecutor {
 						if (ConnectionInject.isLobby(spawnName)) {
 							if (!player.hasPermission("cookieApi.bypass")) {
 								TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
-								player.sendMessage(MessageDB.TELEPORT_TIMER.replace("{TIME}",
+								player.sendMessage(GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}",
 										String.valueOf(CookieApiBukkit.getWarmUpTime())));
 								Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 										new Runnable() {
@@ -56,7 +56,7 @@ public class LobbyCommand implements CommandExecutor {
 													y, z, yaw, pitch);
 											return;
 										} else {
-											player.sendMessage(MessageDB.TELEPORT_MOVE_CANCEL);
+											player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
 
 										}
 									}
@@ -83,7 +83,7 @@ public class LobbyCommand implements CommandExecutor {
 				}
 			});
 		} else {
-			player.sendMessage(MessageDB.NO_PERMISSIONS);
+			player.sendMessage(GlobalMessageDB.NO_PERMISSIONS);
 		}
 		return false;
 	}
