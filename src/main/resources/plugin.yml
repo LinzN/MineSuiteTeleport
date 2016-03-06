@@ -3,6 +3,8 @@ version: ${project.version}
 description: Teleportplugin
 authors: [Kekshaus]
 main: de.kekshaus.cookieApi.teleport.Teleportplugin
+load: POSTWORLD
+depend: [CookieApiBukkit]
 
 commands:
   setspawn:
