@@ -4,7 +4,7 @@ description: Teleportplugin
 authors: [Kekshaus]
 main: de.kekshaus.cookieApi.teleport.Teleportplugin
 load: POSTWORLD
-depend: [CookieApiBukkit]
+depend: [cookieApiBukkit]
 
 commands:
   setspawn:
