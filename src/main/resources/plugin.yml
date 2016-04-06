@@ -1,5 +1,5 @@
 name: cookieApiTeleport
-version: ${project.version}
+version: ${project.version}.b${build.number}
 description: Teleportplugin
 authors: [Kekshaus]
 main: de.kekshaus.cookieApi.teleport.Teleportplugin
