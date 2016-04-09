@@ -7,16 +7,19 @@
     <version>1.1.2</version>
     <packaging>jar</packaging>
     <name>cookieApiTeleport</name>
-
+	<repositories>
+      <repository>
+        <id>spigot-repo</id>
+        <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+      </repository>
+	</repositories>
     <dependencies>
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.9-R0.1-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/spigot-1.9.jar</systemPath>
-            <optional>true</optional>
-        </dependency>
+    <!--Spigot API-->
+    	<dependency>
+           <groupId>org.spigotmc</groupId>
+           <artifactId>spigot-api</artifactId>
+           <version>1.9.2-R0.1-SNAPSHOT</version>
+    	</dependency>
         <dependency>
         	<groupId>de.cookieapi</groupId>
         	<artifactId>cookieApiBukkit</artifactId>
