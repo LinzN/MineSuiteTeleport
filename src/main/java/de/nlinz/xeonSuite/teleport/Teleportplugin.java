@@ -1,20 +1,21 @@
-package de.kekshaus.cookieApi.teleport;
+package de.nlinz.xeonSuite.teleport;
 
 import org.bukkit.plugin.java.JavaPlugin;
-import de.kekshaus.cookieApi.teleport.commands.BackCommand;
-import de.kekshaus.cookieApi.teleport.commands.LobbyCommand;
-import de.kekshaus.cookieApi.teleport.commands.SetLobby;
-import de.kekshaus.cookieApi.teleport.commands.SetSpawn;
-import de.kekshaus.cookieApi.teleport.commands.SpawnCommand;
-import de.kekshaus.cookieApi.teleport.commands.TpAcceptCommand;
-import de.kekshaus.cookieApi.teleport.commands.TpCommand;
-import de.kekshaus.cookieApi.teleport.commands.TpDenyCommand;
-import de.kekshaus.cookieApi.teleport.commands.TpHereCommand;
-import de.kekshaus.cookieApi.teleport.commands.TpaCommand;
-import de.kekshaus.cookieApi.teleport.commands.TpaHereCommand;
-import de.kekshaus.cookieApi.teleport.database.MineTeleportDB;
-import de.kekshaus.cookieApi.teleport.listener.BukkitSockTeleportListener;
-import de.kekshaus.cookieApi.teleport.listener.TeleportListener;
+
+import de.nlinz.xeonSuite.teleport.commands.BackCommand;
+import de.nlinz.xeonSuite.teleport.commands.LobbyCommand;
+import de.nlinz.xeonSuite.teleport.commands.SetLobby;
+import de.nlinz.xeonSuite.teleport.commands.SetSpawn;
+import de.nlinz.xeonSuite.teleport.commands.SpawnCommand;
+import de.nlinz.xeonSuite.teleport.commands.TpAcceptCommand;
+import de.nlinz.xeonSuite.teleport.commands.TpCommand;
+import de.nlinz.xeonSuite.teleport.commands.TpDenyCommand;
+import de.nlinz.xeonSuite.teleport.commands.TpHereCommand;
+import de.nlinz.xeonSuite.teleport.commands.TpaCommand;
+import de.nlinz.xeonSuite.teleport.commands.TpaHereCommand;
+import de.nlinz.xeonSuite.teleport.database.MineTeleportDB;
+import de.nlinz.xeonSuite.teleport.listener.BukkitSockTeleportListener;
+import de.nlinz.xeonSuite.teleport.listener.TeleportListener;
 
 public class Teleportplugin extends JavaPlugin {
 	private static Teleportplugin inst;

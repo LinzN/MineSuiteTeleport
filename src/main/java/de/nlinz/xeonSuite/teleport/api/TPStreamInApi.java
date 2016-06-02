@@ -1,4 +1,4 @@
-package de.kekshaus.cookieApi.teleport.api;
+package de.nlinz.xeonSuite.teleport.api;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -6,10 +6,10 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
-import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.bukkit.utils.LocationUtil;
-import de.kekshaus.cookieApi.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.bukkit.utils.LocationUtil;
+import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
 
 public class TPStreamInApi {
 
@@ -21,7 +21,7 @@ public class TPStreamInApi {
 		} else {
 			TeleportHASHDB.pendingTeleport.put(player, t);
 			// clear pending teleport if they dont connect
-			Bukkit.getScheduler().runTaskLaterAsynchronously(CookieApiBukkit.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLaterAsynchronously(XeonSuiteBukkit.getInstance(), new Runnable() {
 				@Override
 				public void run() {
 					if (TeleportHASHDB.pendingTeleport.containsKey(player)) {
@@ -68,7 +68,7 @@ public class TPStreamInApi {
 		} else {
 			TeleportHASHDB.pendingTeleportLocations.put(player, t);
 			// clear pending teleport if they dont connect
-			Bukkit.getScheduler().runTaskLaterAsynchronously(CookieApiBukkit.getInstance(), new Runnable() {
+			Bukkit.getScheduler().runTaskLaterAsynchronously(XeonSuiteBukkit.getInstance(), new Runnable() {
 				@Override
 				public void run() {
 					if (TeleportHASHDB.pendingTeleportLocations.containsKey(player)) {

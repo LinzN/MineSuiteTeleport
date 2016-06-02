@@ -1,4 +1,4 @@
-package de.kekshaus.cookieApi.teleport.commands;
+package de.nlinz.xeonSuite.teleport.commands;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -9,22 +9,26 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
-import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
+import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
 
-public class TpAcceptCommand implements CommandExecutor {
+public class TpaHereCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
 			new LinkedBlockingQueue<Runnable>());
 
 	public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
-		if (sender.hasPermission("cookieApi.teleport.tpaccept")) {
+		if (sender.hasPermission("cookieApi.teleport.tpahere")) {
 			this.executorServiceCommands.submit(new Runnable() {
 				public void run() {
 					if (sender instanceof Player) {
 						Player player = (Player) sender;
-						TPStreamOutApi.tpAccept(player);
-						return;
-
+						if ((args.length >= 1)) {
+							String target = args[0].toLowerCase();
+							TPStreamOutApi.tpaHereRequest(player, target);
+							return;
+						} else {
+							sender.sendMessage("Du musst einen Player angeben!");
+						}
 					}
 				}
 			});

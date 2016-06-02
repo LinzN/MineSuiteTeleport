@@ -1,4 +1,4 @@
-package de.kekshaus.cookieApi.teleport.listener;
+package de.nlinz.xeonSuite.teleport.listener;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -8,15 +8,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
-import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
-import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
-import de.kekshaus.cookieApi.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
+import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
 
 public class TeleportListener implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void playerDeath(PlayerDeathEvent e) {
-		if (CookieApiBukkit.isWorldAllowed(e.getEntity().getLocation().getWorld())) {
+		if (XeonSuiteBukkit.isWorldAllowed(e.getEntity().getLocation().getWorld())) {
 			TPStreamOutApi.sendDeathBackLocation(e.getEntity());
 			TeleportHASHDB.ignoreTeleport.add(e.getEntity());
 		}
@@ -43,7 +43,7 @@ public class TeleportListener implements Listener {
 	}
 
 	public void sendWarpMSG(final Player p) {
-		Bukkit.getScheduler().runTaskLaterAsynchronously(CookieApiBukkit.getInstance(), new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(XeonSuiteBukkit.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				TeleportHASHDB.ignoreTeleport.remove(p);

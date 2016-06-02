@@ -1,10 +1,10 @@
-name: cookieApiTeleport
+name: XeonSuiteTeleport
 version: ${project.version}.b${build.number}
 description: Teleportplugin
 authors: [Kekshaus]
-main: de.kekshaus.cookieApi.teleport.Teleportplugin
+main: de.nlinz.xeonSuite.teleport.Teleportplugin
 load: POSTWORLD
-depend: [cookieApiBukkit]
+depend: [XeonSuiteBukkit]
 
 commands:
   setspawn:

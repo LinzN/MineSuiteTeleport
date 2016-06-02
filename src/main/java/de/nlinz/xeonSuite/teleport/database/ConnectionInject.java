@@ -1,4 +1,4 @@
-package de.kekshaus.cookieApi.teleport.database;
+package de.nlinz.xeonSuite.teleport.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

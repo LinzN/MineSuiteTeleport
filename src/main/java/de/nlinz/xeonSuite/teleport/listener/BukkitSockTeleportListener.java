@@ -1,4 +1,4 @@
-package de.kekshaus.cookieApi.teleport.listener;
+package de.nlinz.xeonSuite.teleport.listener;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -7,9 +7,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import de.keks.socket.bukkit.events.plugin.BukkitSockTeleportEvent;
 import de.keks.socket.core.ByteStreamConverter;
-import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.teleport.api.TPStreamInApi;
-import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
+import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.teleport.api.TPStreamInApi;
+import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
 
 public class BukkitSockTeleportListener implements Listener {
 
@@ -21,7 +21,7 @@ public class BukkitSockTeleportListener implements Listener {
 		try {
 			servername = in.readUTF();
 
-			if (!servername.equalsIgnoreCase(CookieApiBukkit.getServerName())) {
+			if (!servername.equalsIgnoreCase(XeonSuiteBukkit.getServerName())) {
 				return;
 			}
 

@@ -1,4 +1,4 @@
-package de.kekshaus.cookieApi.teleport.commands;
+package de.nlinz.xeonSuite.teleport.commands;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -11,9 +11,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
-import de.kekshaus.cookieApi.teleport.database.ConnectionInject;
+import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.teleport.database.ConnectionInject;
 
 public class SetLobby implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -26,7 +26,7 @@ public class SetLobby implements CommandExecutor {
 					if (sender instanceof Player) {
 						Player player = (Player) sender;
 						Location coords = player.getLocation();
-						String server = CookieApiBukkit.getServerName();
+						String server = XeonSuiteBukkit.getServerName();
 						String world = coords.getWorld().getName();
 						Double x = coords.getX();
 						Double y = coords.getY();

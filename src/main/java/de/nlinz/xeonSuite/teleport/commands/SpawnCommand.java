@@ -1,4 +1,4 @@
-package de.kekshaus.cookieApi.teleport.commands;
+package de.nlinz.xeonSuite.teleport.commands;
 
 import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -11,12 +11,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
-import de.kekshaus.cookieApi.teleport.Teleportplugin;
-import de.kekshaus.cookieApi.teleport.api.TPStreamOutApi;
-import de.kekshaus.cookieApi.teleport.database.ConnectionInject;
-import de.kekshaus.cookieApi.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.teleport.Teleportplugin;
+import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
+import de.nlinz.xeonSuite.teleport.database.ConnectionInject;
+import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
 import net.md_5.bungee.api.ChatColor;
 
 public class SpawnCommand implements CommandExecutor {
@@ -31,12 +31,12 @@ public class SpawnCommand implements CommandExecutor {
 					if (sender instanceof Player) {
 						final String spawnName = "serverspawn";
 
-						final String servername = CookieApiBukkit.getServerName();
+						final String servername = XeonSuiteBukkit.getServerName();
 						if (ConnectionInject.isSpawn(spawnName, servername)) {
 							if (!player.hasPermission("cookieApi.bypass")) {
 								TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
 								player.sendMessage(GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}",
-										String.valueOf(CookieApiBukkit.getWarmUpTime())));
+										String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 								Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 										new Runnable() {
 									@Override
@@ -61,7 +61,7 @@ public class SpawnCommand implements CommandExecutor {
 
 										}
 									}
-								}, 20L * CookieApiBukkit.getWarmUpTime());
+								}, 20L * XeonSuiteBukkit.getWarmUpTime());
 							} else {
 								List<String> list = ConnectionInject.getSpawn(spawnName, servername);
 								String world = list.get(1);

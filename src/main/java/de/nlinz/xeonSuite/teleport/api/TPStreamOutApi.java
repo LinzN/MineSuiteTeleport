@@ -1,15 +1,15 @@
-package de.kekshaus.cookieApi.teleport.api;
+package de.nlinz.xeonSuite.teleport.api;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.kekshaus.cookieApi.bukkit.GlobalMessageDB;
 import de.keks.socket.bukkit.BukkitPlugin;
 import de.keks.socket.core.Channel;
-import de.kekshaus.cookieApi.bukkit.CookieApiBukkit;
-import de.kekshaus.cookieApi.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -91,8 +91,8 @@ public class TPStreamOutApi {
 		if (!player.hasPermission("cookieApi.bypass")) {
 			TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
 			player.sendMessage(
-					GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}", String.valueOf(CookieApiBukkit.getWarmUpTime())));
-			CookieApiBukkit.getInstance().getServer().getScheduler().runTaskLater(CookieApiBukkit.getInstance(),
+					GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}", String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
+			XeonSuiteBukkit.getInstance().getServer().getScheduler().runTaskLater(XeonSuiteBukkit.getInstance(),
 					new Runnable() {
 						@Override
 						public void run() {
@@ -108,7 +108,7 @@ public class TPStreamOutApi {
 
 							}
 						}
-					}, 20L * CookieApiBukkit.getWarmUpTime());
+					}, 20L * XeonSuiteBukkit.getWarmUpTime());
 		} else {
 			player.saveData();
 			teleportToPlayer(player.getName(), target);
