@@ -2,20 +2,30 @@ package de.nlinz.xeonSuite.teleport.listener;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+
 import org.bukkit.Bukkit;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import de.keks.socket.bukkit.events.plugin.BukkitSockTeleportEvent;
-import de.keks.socket.core.ByteStreamConverter;
+
+import de.nlinz.javaSocket.client.api.XeonSocketClientManager;
+import de.nlinz.javaSocket.client.events.SocketDataEvent;
+import de.nlinz.javaSocket.client.interfaces.IDataListener;
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
 import de.nlinz.xeonSuite.teleport.api.TPStreamInApi;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
 
-public class BukkitSockTeleportListener implements Listener {
+public class XeonTeleport implements IDataListener {
 
-	@EventHandler
-	public void onBukkitSockBanEvent(final BukkitSockTeleportEvent e) {
-		DataInputStream in = ByteStreamConverter.toDataInputStream(e.readBytes());
+	@Override
+	public String getChannel() {
+		// TODO Auto-generated method stub
+		return channelName;
+	}
+
+	public static String channelName = "xeonTeleport";
+
+	@Override
+	public void onDataRecieve(SocketDataEvent event) {
+		// TODO Auto-generated method stub
+		DataInputStream in = XeonSocketClientManager.readDataInput(event.getStreamBytes());
 		String task = null;
 		String servername = null;
 		try {
@@ -43,7 +53,6 @@ public class BukkitSockTeleportListener implements Listener {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-
 	}
 
 }

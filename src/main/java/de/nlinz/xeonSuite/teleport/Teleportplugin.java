@@ -2,6 +2,7 @@ package de.nlinz.xeonSuite.teleport;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import de.nlinz.javaSocket.client.api.XeonSocketClientManager;
 import de.nlinz.xeonSuite.teleport.commands.BackCommand;
 import de.nlinz.xeonSuite.teleport.commands.LobbyCommand;
 import de.nlinz.xeonSuite.teleport.commands.SetLobby;
@@ -14,19 +15,21 @@ import de.nlinz.xeonSuite.teleport.commands.TpHereCommand;
 import de.nlinz.xeonSuite.teleport.commands.TpaCommand;
 import de.nlinz.xeonSuite.teleport.commands.TpaHereCommand;
 import de.nlinz.xeonSuite.teleport.database.MineTeleportDB;
-import de.nlinz.xeonSuite.teleport.listener.BukkitSockTeleportListener;
 import de.nlinz.xeonSuite.teleport.listener.TeleportListener;
+import de.nlinz.xeonSuite.teleport.listener.XeonTeleport;
 
 public class Teleportplugin extends JavaPlugin {
 	private static Teleportplugin inst;
 
+	@Override
 	public void onEnable() {
 		inst = this;
 		loadCommands();
-		getServer().getPluginManager().registerEvents(new BukkitSockTeleportListener(), this);
+		XeonSocketClientManager.registerDataListener(new XeonTeleport());
 		getServer().getPluginManager().registerEvents(new TeleportListener(), this);
 	}
 
+	@Override
 	public void onDisable() {
 	}
 

@@ -1,25 +1,25 @@
 package de.nlinz.xeonSuite.teleport.api;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.keks.socket.bukkit.BukkitPlugin;
-import de.keks.socket.core.Channel;
-import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.javaSocket.client.api.XeonSocketClientManager;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
 import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
-
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import de.nlinz.xeonSuite.teleport.listener.XeonTeleport;
 
 public class TPStreamOutApi {
 
 	public static void tpAll(CommandSender sender, String targetPlayer) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("TpAll");
 			out.writeUTF(sender.getName());
@@ -28,12 +28,12 @@ public class TPStreamOutApi {
 			e.printStackTrace();
 		}
 
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void tpaRequest(CommandSender sender, String targetPlayer) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("TpaRequest");
 			out.writeUTF(sender.getName());
@@ -42,12 +42,13 @@ public class TPStreamOutApi {
 			e.printStackTrace();
 		}
 
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
+		;
 	}
 
 	public static void tpaHereRequest(CommandSender sender, String targetPlayer) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("TpaHereRequest");
 			out.writeUTF(sender.getName());
@@ -55,15 +56,15 @@ public class TPStreamOutApi {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void tpAccept(final CommandSender sender) {
 		final Player player = Bukkit.getPlayer(sender.getName());
 
 		player.saveData();
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("TpAccept");
 			out.writeUTF(sender.getName());
@@ -71,12 +72,12 @@ public class TPStreamOutApi {
 			e.printStackTrace();
 		}
 
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void tpDeny(String sender) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("TpDeny");
 			out.writeUTF(sender);
@@ -84,7 +85,7 @@ public class TPStreamOutApi {
 			e.printStackTrace();
 		}
 
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void finishTPA(final Player player, final String target) {
@@ -117,21 +118,20 @@ public class TPStreamOutApi {
 	}
 
 	public static void toggleTeleports(String name) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("ToggleTeleports");
 			out.writeUTF(name);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void teleportToPlayer(final String playerName, final String target) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("TeleportToPlayer");
 			out.writeUTF(playerName);
@@ -141,14 +141,13 @@ public class TPStreamOutApi {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void sendTeleportToLocationOut(String player, String server, String world, Double x, Double y,
 			Double z, Float yaw, Float pitch) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("TeleportToLocation");
 			out.writeUTF(player);
@@ -163,12 +162,12 @@ public class TPStreamOutApi {
 			e.printStackTrace();
 		}
 
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void sendDeathBackLocation(Player p) {
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("PlayersDeathBackLocation");
 			out.writeUTF(p.getName());
@@ -183,15 +182,15 @@ public class TPStreamOutApi {
 			e.printStackTrace();
 		}
 
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 	public static void sendPlayerBack(final CommandSender sender) {
 		final Player player = Bukkit.getPlayer(sender.getName());
 
 		player.saveData();
-		ByteArrayOutputStream b = new ByteArrayOutputStream();
-		DataOutputStream out = Channel.teleportChannel(b);
+		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+		DataOutputStream out = XeonSocketClientManager.createChannel(bytes, XeonTeleport.channelName);
 		try {
 			out.writeUTF("SendPlayerBack");
 			out.writeUTF(sender.getName());
@@ -200,8 +199,7 @@ public class TPStreamOutApi {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		BukkitPlugin.instance().sendBytesOut(b);
+		XeonSocketClientManager.sendData(bytes);
 	}
 
 }

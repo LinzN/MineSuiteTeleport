@@ -21,11 +21,6 @@
            <version>1.9.4-R0.1-SNAPSHOT</version>
     	</dependency>
         <dependency>
-        	<groupId>de.kekshaus</groupId>
-        	<artifactId>CookieSocket</artifactId>
-        	<version>1</version>
-        </dependency>
-        <dependency>
         	<groupId>de.nlinz.xeonSuite</groupId>
         	<artifactId>XeonSuiteBukkit</artifactId>
         	<version>1</version>
