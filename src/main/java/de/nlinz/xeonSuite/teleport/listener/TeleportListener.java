@@ -9,9 +9,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.utils.tables.TeleportDataTable;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
-import de.nlinz.xeonSuite.teleport.database.TeleportDataTable;
 
 public class TeleportListener implements Listener {
 	@EventHandler(ignoreCancelled = true)
