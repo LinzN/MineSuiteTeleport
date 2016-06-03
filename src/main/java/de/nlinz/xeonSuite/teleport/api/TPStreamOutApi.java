@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 import de.nlinz.javaSocket.client.api.XeonSocketClientManager;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
-import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.teleport.database.TeleportDataTable;
 import de.nlinz.xeonSuite.teleport.listener.XeonTeleport;
 
 public class TPStreamOutApi {
@@ -90,7 +90,7 @@ public class TPStreamOutApi {
 
 	public static void finishTPA(final Player player, final String target) {
 		if (!player.hasPermission("cookieApi.bypass")) {
-			TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
+			TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
 			player.sendMessage(
 					GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}", String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 			XeonSuiteBukkit.getInstance().getServer().getScheduler().runTaskLater(XeonSuiteBukkit.getInstance(),
@@ -98,8 +98,8 @@ public class TPStreamOutApi {
 						@Override
 						public void run() {
 
-							Location loc = TeleportHASHDB.lastTeleportLocation.get(player);
-							TeleportHASHDB.lastTeleportLocation.remove(player);
+							Location loc = TeleportDataTable.lastTeleportLocation.get(player);
+							TeleportDataTable.lastTeleportLocation.remove(player);
 							if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
 								player.saveData();
 								teleportToPlayer(player.getName(), target);

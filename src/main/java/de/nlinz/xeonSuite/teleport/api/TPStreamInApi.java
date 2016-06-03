@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.bukkit.utils.LocationUtil;
-import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.teleport.database.TeleportDataTable;
 
 public class TPStreamInApi {
 
@@ -19,13 +19,13 @@ public class TPStreamInApi {
 		if (p != null) {
 			p.teleport(t);
 		} else {
-			TeleportHASHDB.pendingTeleport.put(player, t);
+			TeleportDataTable.pendingTeleport.put(player, t);
 			// clear pending teleport if they dont connect
 			Bukkit.getScheduler().runTaskLaterAsynchronously(XeonSuiteBukkit.getInstance(), new Runnable() {
 				@Override
 				public void run() {
-					if (TeleportHASHDB.pendingTeleport.containsKey(player)) {
-						TeleportHASHDB.pendingTeleport.remove(player);
+					if (TeleportDataTable.pendingTeleport.containsKey(player)) {
+						TeleportDataTable.pendingTeleport.remove(player);
 					}
 
 				}
@@ -66,13 +66,13 @@ public class TPStreamInApi {
 				return;
 			}
 		} else {
-			TeleportHASHDB.pendingTeleportLocations.put(player, t);
+			TeleportDataTable.pendingTeleportLocations.put(player, t);
 			// clear pending teleport if they dont connect
 			Bukkit.getScheduler().runTaskLaterAsynchronously(XeonSuiteBukkit.getInstance(), new Runnable() {
 				@Override
 				public void run() {
-					if (TeleportHASHDB.pendingTeleportLocations.containsKey(player)) {
-						TeleportHASHDB.pendingTeleportLocations.remove(player);
+					if (TeleportDataTable.pendingTeleportLocations.containsKey(player)) {
+						TeleportDataTable.pendingTeleportLocations.remove(player);
 					}
 				}
 			}, 100L);

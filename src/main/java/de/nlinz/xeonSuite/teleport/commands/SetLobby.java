@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
-import de.nlinz.xeonSuite.teleport.database.ConnectionInject;
+import de.nlinz.xeonSuite.teleport.database.TeleportSqlActions;
 
 public class SetLobby implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -36,12 +36,12 @@ public class SetLobby implements CommandExecutor {
 
 						String spawnType = "lobby";
 
-						if (ConnectionInject.isLobby(spawnType)) {
+						if (TeleportSqlActions.isLobby(spawnType)) {
 							sender.sendMessage("Dieser Spawntype ist bereits registriert.");
 							return;
 						}
 
-						ConnectionInject.setLobby(spawnType, server, world, x, y, z, yaw, pitch);
+						TeleportSqlActions.setLobby(spawnType, server, world, x, y, z, yaw, pitch);
 						sender.sendMessage(ChatColor.GREEN + "Du hast den SpawnType " + ChatColor.YELLOW + spawnType
 								+ ChatColor.GREEN + " registriert!");
 

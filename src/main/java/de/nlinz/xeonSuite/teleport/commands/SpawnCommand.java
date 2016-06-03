@@ -15,8 +15,8 @@ import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.teleport.Teleportplugin;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
-import de.nlinz.xeonSuite.teleport.database.ConnectionInject;
-import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.teleport.database.TeleportSqlActions;
+import de.nlinz.xeonSuite.teleport.database.TeleportDataTable;
 import net.md_5.bungee.api.ChatColor;
 
 public class SpawnCommand implements CommandExecutor {
@@ -32,9 +32,9 @@ public class SpawnCommand implements CommandExecutor {
 						final String spawnName = "serverspawn";
 
 						final String servername = XeonSuiteBukkit.getServerName();
-						if (ConnectionInject.isSpawn(spawnName, servername)) {
+						if (TeleportSqlActions.isSpawn(spawnName, servername)) {
 							if (!player.hasPermission("cookieApi.bypass")) {
-								TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
+								TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
 								player.sendMessage(GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}",
 										String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 								Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
@@ -42,10 +42,10 @@ public class SpawnCommand implements CommandExecutor {
 									@Override
 									public void run() {
 
-										Location loc = TeleportHASHDB.lastTeleportLocation.get(player);
-										TeleportHASHDB.lastTeleportLocation.remove(player);
+										Location loc = TeleportDataTable.lastTeleportLocation.get(player);
+										TeleportDataTable.lastTeleportLocation.remove(player);
 										if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
-											List<String> list = ConnectionInject.getSpawn(spawnName, servername);
+											List<String> list = TeleportSqlActions.getSpawn(spawnName, servername);
 											String world = list.get(1);
 											String server = list.get(2);
 											double x = Double.parseDouble(list.get(3));
@@ -63,7 +63,7 @@ public class SpawnCommand implements CommandExecutor {
 									}
 								}, 20L * XeonSuiteBukkit.getWarmUpTime());
 							} else {
-								List<String> list = ConnectionInject.getSpawn(spawnName, servername);
+								List<String> list = TeleportSqlActions.getSpawn(spawnName, servername);
 								String world = list.get(1);
 								String server = list.get(2);
 

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-public class TeleportHASHDB {
+public class TeleportDataTable {
 	public static HashMap<String, Player> pendingTeleport = new HashMap<String, Player>();
 	public static HashMap<String, Location> pendingTeleportLocations = new HashMap<String, Location>();
 	public static HashSet<Player> ignoreTeleport = new HashSet<Player>();

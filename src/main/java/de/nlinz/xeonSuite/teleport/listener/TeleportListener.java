@@ -11,32 +11,32 @@ import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
-import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.teleport.database.TeleportDataTable;
 
 public class TeleportListener implements Listener {
 	@EventHandler(ignoreCancelled = true)
 	public void playerDeath(PlayerDeathEvent e) {
 		if (XeonSuiteBukkit.isWorldAllowed(e.getEntity().getLocation().getWorld())) {
 			TPStreamOutApi.sendDeathBackLocation(e.getEntity());
-			TeleportHASHDB.ignoreTeleport.add(e.getEntity());
+			TeleportDataTable.ignoreTeleport.add(e.getEntity());
 		}
 	}
 
 	@EventHandler
 	public void playerConnect(PlayerSpawnLocationEvent e) {
-		if (TeleportHASHDB.pendingTeleport.containsKey(e.getPlayer().getName())) {
-			Player t = TeleportHASHDB.pendingTeleport.get(e.getPlayer().getName());
-			TeleportHASHDB.pendingTeleport.remove(e.getPlayer().getName());
+		if (TeleportDataTable.pendingTeleport.containsKey(e.getPlayer().getName())) {
+			Player t = TeleportDataTable.pendingTeleport.get(e.getPlayer().getName());
+			TeleportDataTable.pendingTeleport.remove(e.getPlayer().getName());
 			if ((t == null) || (!t.isOnline())) {
 				e.getPlayer().sendMessage("Player is no longer online");
 				return;
 			}
-			TeleportHASHDB.ignoreTeleport.add(e.getPlayer());
+			TeleportDataTable.ignoreTeleport.add(e.getPlayer());
 			e.setSpawnLocation(t.getLocation());
 			sendWarpMSG(e.getPlayer());
-		} else if (TeleportHASHDB.pendingTeleportLocations.containsKey(e.getPlayer().getName())) {
-			Location l = TeleportHASHDB.pendingTeleportLocations.get(e.getPlayer().getName());
-			TeleportHASHDB.ignoreTeleport.add(e.getPlayer());
+		} else if (TeleportDataTable.pendingTeleportLocations.containsKey(e.getPlayer().getName())) {
+			Location l = TeleportDataTable.pendingTeleportLocations.get(e.getPlayer().getName());
+			TeleportDataTable.ignoreTeleport.add(e.getPlayer());
 			e.setSpawnLocation(l);
 			sendWarpMSG(e.getPlayer());
 		}
@@ -46,7 +46,7 @@ public class TeleportListener implements Listener {
 		Bukkit.getScheduler().runTaskLaterAsynchronously(XeonSuiteBukkit.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				TeleportHASHDB.ignoreTeleport.remove(p);
+				TeleportDataTable.ignoreTeleport.remove(p);
 				p.sendMessage(GlobalMessageDB.Teleport_Teleport);
 			}
 		}, 20);

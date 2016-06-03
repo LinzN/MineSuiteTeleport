@@ -14,7 +14,7 @@ import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
 import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.teleport.Teleportplugin;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
-import de.nlinz.xeonSuite.teleport.database.TeleportHASHDB;
+import de.nlinz.xeonSuite.teleport.database.TeleportDataTable;
 
 public class BackCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
@@ -27,15 +27,15 @@ public class BackCommand implements CommandExecutor {
 				public void run() {
 					if (sender instanceof Player) {
 						if (!player.hasPermission("cookieApi.bypass")) {
-							TeleportHASHDB.lastTeleportLocation.put(player, player.getLocation());
+							TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
 							player.sendMessage(GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}",
 									String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 							Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 									new Runnable() {
 								@Override
 								public void run() {
-									Location loc = TeleportHASHDB.lastTeleportLocation.get(player);
-									TeleportHASHDB.lastTeleportLocation.remove(player);
+									Location loc = TeleportDataTable.lastTeleportLocation.get(player);
+									TeleportDataTable.lastTeleportLocation.remove(player);
 									if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
 
 										TPStreamOutApi.sendPlayerBack(sender);
