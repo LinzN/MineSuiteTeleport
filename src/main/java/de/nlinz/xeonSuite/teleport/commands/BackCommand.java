@@ -32,20 +32,21 @@ public class BackCommand implements CommandExecutor {
 									String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 							Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 									new Runnable() {
-								@Override
-								public void run() {
-									Location loc = TeleportDataTable.lastTeleportLocation.get(player);
-									TeleportDataTable.lastTeleportLocation.remove(player);
-									if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
+										@Override
+										public void run() {
+											Location loc = TeleportDataTable.lastTeleportLocation.get(player);
+											TeleportDataTable.lastTeleportLocation.remove(player);
+											if ((loc != null)
+													&& (loc.getBlock().equals(player.getLocation().getBlock()))) {
 
-										TPStreamOutApi.sendPlayerBack(sender);
-										return;
-									} else {
-										player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
+												TPStreamOutApi.sendPlayerBack(sender);
+												return;
+											} else {
+												player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
 
-									}
-								}
-							}, 20L * XeonSuiteBukkit.getWarmUpTime());
+											}
+										}
+									}, 20L * XeonSuiteBukkit.getWarmUpTime());
 						} else {
 
 							TPStreamOutApi.sendPlayerBack(sender);

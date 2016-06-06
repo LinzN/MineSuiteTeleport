@@ -38,29 +38,30 @@ public class LobbyCommand implements CommandExecutor {
 										String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 								Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 										new Runnable() {
-									@Override
-									public void run() {
+											@Override
+											public void run() {
 
-										Location loc = TeleportDataTable.lastTeleportLocation.get(player);
-										TeleportDataTable.lastTeleportLocation.remove(player);
-										if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
-											List<String> list = TeleportSqlActions.getLobby(spawnName);
-											String world = list.get(1);
-											String server = list.get(2);
-											double x = Double.parseDouble(list.get(3));
-											double y = Double.parseDouble(list.get(4));
-											double z = Double.parseDouble(list.get(5));
-											float yaw = Float.parseFloat(list.get(6));
-											float pitch = Float.parseFloat(list.get(7));
-											TPStreamOutApi.sendTeleportToLocationOut(player.getName(), server, world, x,
-													y, z, yaw, pitch);
-											return;
-										} else {
-											player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
+												Location loc = TeleportDataTable.lastTeleportLocation.get(player);
+												TeleportDataTable.lastTeleportLocation.remove(player);
+												if ((loc != null)
+														&& (loc.getBlock().equals(player.getLocation().getBlock()))) {
+													List<String> list = TeleportSqlActions.getLobby(spawnName);
+													String world = list.get(1);
+													String server = list.get(2);
+													double x = Double.parseDouble(list.get(3));
+													double y = Double.parseDouble(list.get(4));
+													double z = Double.parseDouble(list.get(5));
+													float yaw = Float.parseFloat(list.get(6));
+													float pitch = Float.parseFloat(list.get(7));
+													TPStreamOutApi.sendTeleportToLocationOut(player.getName(), server,
+															world, x, y, z, yaw, pitch);
+													return;
+												} else {
+													player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
 
-										}
-									}
-								}, 20L * XeonSuiteBukkit.getWarmUpTime());
+												}
+											}
+										}, 20L * XeonSuiteBukkit.getWarmUpTime());
 							} else {
 								List<String> list = TeleportSqlActions.getLobby(spawnName);
 								String world = list.get(1);
