@@ -89,7 +89,7 @@ public class TPStreamOutApi {
 	}
 
 	public static void finishTPA(final Player player, final String target) {
-		if (!player.hasPermission("cookieApi.bypass")) {
+		if (!player.hasPermission("xeonSuite.bypass")) {
 			TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
 			player.sendMessage(
 					GlobalLanguage.TELEPORT_TIMER.replace("{TIME}", String.valueOf(XeonSuiteBukkit.getWarmUpTime())));

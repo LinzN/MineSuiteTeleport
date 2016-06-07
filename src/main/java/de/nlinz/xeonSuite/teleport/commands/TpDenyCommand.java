@@ -18,7 +18,7 @@ public class TpDenyCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
-		if (sender.hasPermission("cookieApi.teleport.tpdeny")) {
+		if (sender.hasPermission("xeonSuite.teleport.tpdeny")) {
 			this.executorServiceCommands.submit(new Runnable() {
 				@Override
 				public void run() {

@@ -36,62 +36,62 @@ commands:
   tpdeny:
     description: Delete a SpawnType
 permissions:
-    cookieApi.teleport.team:
+    xeonSuite.teleport.team:
         description: Alle Permissions
         children:
-            cookieApi.teleport.user: true
-            cookieApi.teleport.setspawn: true
-            cookieApi.teleport.delspawn: true
-            cookieApi.teleport.dellobby: true
-            cookieApi.teleport.setlobby: true
-            cookieApi.teleport.tp: true
-            cookieApi.teleport.tphere: true
-    cookieApi.teleport.user:
+            xeonSuite.teleport.user: true
+            xeonSuite.teleport.setspawn: true
+            xeonSuite.teleport.delspawn: true
+            xeonSuite.teleport.dellobby: true
+            xeonSuite.teleport.setlobby: true
+            xeonSuite.teleport.tp: true
+            xeonSuite.teleport.tphere: true
+    xeonSuite.teleport.user:
         description: Alle Permissions
         children:
-            cookieApi.teleport.lobby: true
-            cookieApi.teleport.spawn: true
-            cookieApi.teleport.back: true
-            cookieApi.teleport.tpa: true
-            cookieApi.teleport.tpahere: true
-            cookieApi.teleport.tpaccept: true
-            cookieApi.teleport.tpdeny: true
-    cookieApi.teleport.lobby:
+            xeonSuite.teleport.lobby: true
+            xeonSuite.teleport.spawn: true
+            xeonSuite.teleport.back: true
+            xeonSuite.teleport.tpa: true
+            xeonSuite.teleport.tpahere: true
+            xeonSuite.teleport.tpaccept: true
+            xeonSuite.teleport.tpdeny: true
+    xeonSuite.teleport.lobby:
         description: Teleport to lobby
         default: op
-    cookieApi.teleport.setspawn:
+    xeonSuite.teleport.setspawn:
         description: Teleport to lobby
         default: op
-    cookieApi.teleport.setlobby:
+    xeonSuite.teleport.setlobby:
         description: Teleport to lobby
         default: op
-    cookieApi.teleport.delspawn:
+    xeonSuite.teleport.delspawn:
         description: Teleport to lobby
         default: op
-    cookieApi.teleport.dellobby:
+    xeonSuite.teleport.dellobby:
         description: Teleport to lobby
         default: op
-    cookieApi.teleport.spawn:
+    xeonSuite.teleport.spawn:
         description: Teleport to spawn
         default: op
-    cookieApi.teleport.back:
+    xeonSuite.teleport.back:
         description: Teleport to spawn
         default: op
-    cookieApi.teleport.tp:
+    xeonSuite.teleport.tp:
         description: Teleport to spawn
         default: op
-    cookieApi.teleport.tphere:
+    xeonSuite.teleport.tphere:
         description: Teleport to spawn
         default: op
-    cookieApi.teleport.tpa:
+    xeonSuite.teleport.tpa:
         description: Teleport to spawn
         default: op
-    cookieApi.teleport.tpahere:
+    xeonSuite.teleport.tpahere:
         description: Teleport to spawn
         default: op
-    cookieApi.teleport.tpaccept:
+    xeonSuite.teleport.tpaccept:
         description: Teleport to spawn
         default: op
-    cookieApi.teleport.tpdeny:
+    xeonSuite.teleport.tpdeny:
         description: Teleport to spawn
         default: op

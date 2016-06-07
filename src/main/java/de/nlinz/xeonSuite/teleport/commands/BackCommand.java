@@ -23,12 +23,12 @@ public class BackCommand implements CommandExecutor {
 	@Override
 	public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
 		final Player player = (Player) sender;
-		if (player.hasPermission("cookieApi.teleport.back")) {
+		if (player.hasPermission("xeonSuite.teleport.back")) {
 			this.executorServiceCommands.submit(new Runnable() {
 				@Override
 				public void run() {
 					if (sender instanceof Player) {
-						if (!player.hasPermission("cookieApi.bypass")) {
+						if (!player.hasPermission("xeonSuite.bypass")) {
 							TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
 							player.sendMessage(GlobalLanguage.TELEPORT_TIMER.replace("{TIME}",
 									String.valueOf(XeonSuiteBukkit.getWarmUpTime())));

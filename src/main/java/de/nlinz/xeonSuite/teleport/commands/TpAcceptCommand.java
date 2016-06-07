@@ -18,7 +18,7 @@ public class TpAcceptCommand implements CommandExecutor {
 
 	@Override
 	public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
-		if (sender.hasPermission("cookieApi.teleport.tpaccept")) {
+		if (sender.hasPermission("xeonSuite.teleport.tpaccept")) {
 			this.executorServiceCommands.submit(new Runnable() {
 				@Override
 				public void run() {
