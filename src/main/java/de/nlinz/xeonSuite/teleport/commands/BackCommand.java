@@ -11,8 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.utils.languages.GlobalLanguage;
 import de.nlinz.xeonSuite.bukkit.utils.tables.TeleportDataTable;
-import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.teleport.Teleportplugin;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
 
@@ -20,15 +20,17 @@ public class BackCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
 			new LinkedBlockingQueue<Runnable>());
 
+	@Override
 	public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
 		final Player player = (Player) sender;
 		if (player.hasPermission("cookieApi.teleport.back")) {
 			this.executorServiceCommands.submit(new Runnable() {
+				@Override
 				public void run() {
 					if (sender instanceof Player) {
 						if (!player.hasPermission("cookieApi.bypass")) {
 							TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
-							player.sendMessage(GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}",
+							player.sendMessage(GlobalLanguage.TELEPORT_TIMER.replace("{TIME}",
 									String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 							Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 									new Runnable() {
@@ -42,7 +44,7 @@ public class BackCommand implements CommandExecutor {
 												TPStreamOutApi.sendPlayerBack(sender);
 												return;
 											} else {
-												player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
+												player.sendMessage(GlobalLanguage.TELEPORT_MOVE_CANCEL);
 
 											}
 										}
@@ -59,7 +61,7 @@ public class BackCommand implements CommandExecutor {
 				}
 			});
 		} else {
-			player.sendMessage(GlobalMessageDB.NO_PERMISSIONS);
+			player.sendMessage(GlobalLanguage.NO_PERMISSIONS);
 		}
 		return false;
 	}

@@ -9,16 +9,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
+import de.nlinz.xeonSuite.bukkit.utils.languages.GlobalLanguage;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
 
 public class TpaCommand implements CommandExecutor {
 	public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
 			new LinkedBlockingQueue<Runnable>());
 
+	@Override
 	public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
 		if (sender.hasPermission("cookieApi.teleport.tpa")) {
 			this.executorServiceCommands.submit(new Runnable() {
+				@Override
 				public void run() {
 					if (sender instanceof Player) {
 						Player player = (Player) sender;
@@ -33,7 +35,7 @@ public class TpaCommand implements CommandExecutor {
 				}
 			});
 		} else {
-			sender.sendMessage(GlobalMessageDB.NO_PERMISSIONS);
+			sender.sendMessage(GlobalLanguage.NO_PERMISSIONS);
 		}
 		return false;
 	}

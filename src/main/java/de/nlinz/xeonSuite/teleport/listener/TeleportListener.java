@@ -9,8 +9,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.utils.languages.TeleportLanguage;
 import de.nlinz.xeonSuite.bukkit.utils.tables.TeleportDataTable;
-import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
 
 public class TeleportListener implements Listener {
@@ -47,7 +47,7 @@ public class TeleportListener implements Listener {
 			@Override
 			public void run() {
 				TeleportDataTable.ignoreTeleport.remove(p);
-				p.sendMessage(GlobalMessageDB.Teleport_Teleport);
+				p.sendMessage(TeleportLanguage.Teleport_Teleport);
 			}
 		}, 20);
 

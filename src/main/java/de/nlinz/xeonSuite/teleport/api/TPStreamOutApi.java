@@ -10,8 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.nlinz.javaSocket.client.api.XeonSocketClientManager;
-import de.nlinz.xeonSuite.bukkit.GlobalMessageDB;
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
+import de.nlinz.xeonSuite.bukkit.utils.languages.GlobalLanguage;
 import de.nlinz.xeonSuite.bukkit.utils.tables.TeleportDataTable;
 import de.nlinz.xeonSuite.teleport.listener.XeonTeleport;
 
@@ -92,7 +92,7 @@ public class TPStreamOutApi {
 		if (!player.hasPermission("cookieApi.bypass")) {
 			TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
 			player.sendMessage(
-					GlobalMessageDB.TELEPORT_TIMER.replace("{TIME}", String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
+					GlobalLanguage.TELEPORT_TIMER.replace("{TIME}", String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 			XeonSuiteBukkit.getInstance().getServer().getScheduler().runTaskLater(XeonSuiteBukkit.getInstance(),
 					new Runnable() {
 						@Override
@@ -105,7 +105,7 @@ public class TPStreamOutApi {
 								teleportToPlayer(player.getName(), target);
 
 							} else {
-								player.sendMessage(GlobalMessageDB.TELEPORT_MOVE_CANCEL);
+								player.sendMessage(GlobalLanguage.TELEPORT_MOVE_CANCEL);
 
 							}
 						}
