@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import de.nlinz.xeonSuite.bukkit.XeonSuiteBukkit;
-import de.nlinz.xeonSuite.bukkit.utils.languages.GlobalLanguage;
+import de.nlinz.xeonSuite.bukkit.utils.languages.GeneralLanguage;
 import de.nlinz.xeonSuite.bukkit.utils.tables.TeleportDataTable;
 import de.nlinz.xeonSuite.teleport.Teleportplugin;
 import de.nlinz.xeonSuite.teleport.api.TPStreamOutApi;
@@ -36,7 +36,7 @@ public class LobbyCommand implements CommandExecutor {
 						if (TeleportSqlActions.isLobby(spawnName)) {
 							if (!player.hasPermission("xeonSuite.bypass")) {
 								TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
-								player.sendMessage(GlobalLanguage.TELEPORT_TIMER.replace("{TIME}",
+								player.sendMessage(GeneralLanguage.TELEPORT_TIMER.replace("{TIME}",
 										String.valueOf(XeonSuiteBukkit.getWarmUpTime())));
 								Teleportplugin.inst().getServer().getScheduler().runTaskLater(Teleportplugin.inst(),
 										new Runnable() {
@@ -59,7 +59,7 @@ public class LobbyCommand implements CommandExecutor {
 															world, x, y, z, yaw, pitch);
 													return;
 												} else {
-													player.sendMessage(GlobalLanguage.TELEPORT_MOVE_CANCEL);
+													player.sendMessage(GeneralLanguage.TELEPORT_MOVE_CANCEL);
 
 												}
 											}
@@ -86,7 +86,7 @@ public class LobbyCommand implements CommandExecutor {
 				}
 			});
 		} else {
-			player.sendMessage(GlobalLanguage.NO_PERMISSIONS);
+			player.sendMessage(GeneralLanguage.NO_PERMISSIONS);
 		}
 		return false;
 	}
