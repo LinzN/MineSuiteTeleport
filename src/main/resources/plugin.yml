@@ -1,5 +1,5 @@
 name: XeonSuiteTeleport
-version: ${project.version}.b${build.number}
+version: ${project.version}
 description: Teleportplugin
 authors: [Kekshaus]
 main: de.nlinz.xeonSuite.teleport.Teleportplugin

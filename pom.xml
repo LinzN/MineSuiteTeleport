@@ -1,28 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>de.nlinz.xeonSuite</groupId>
-	<artifactId>XeonSuiteTeleport</artifactId>
-	<version>1</version>
 	<packaging>jar</packaging>
 	<name>XeonSuiteTeleport</name>
 	<repositories>
 		<repository>
-			<id>spigot-repo</id>
-			<url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-		</repository>
-		<repository>
-			<id>Bytearray-repo</id>
-			<url>https://repo.bytearray.de/</url>
+			<id>enigmar-repo</id>
+			<url>https://repository.enigmar.de/</url>
 		</repository>
 	</repositories>
-	<dependencies>
-		<!--Spigot API -->
+    <dependencies>
+    <!--Spigot API-->
 		<dependency>
-			<groupId>de.nlinz.xeonSuite</groupId>
-			<artifactId>XeonSuiteBukkit</artifactId>
-			<version>1</version>
+			<groupId>org.spigotmc-1_12</groupId>
+			<artifactId>spigot</artifactId>
+			<version>1.12-R0.1-SNAPSHOT</version>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>de.linzn</groupId>
+			<artifactId>xeonSuiteBukkit</artifactId>
+			<version>1.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -44,6 +42,7 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
+					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -59,6 +58,13 @@
 			</plugin>
 		</plugins>
 	</build>
+	<artifactId>xeonSuiteTeleport</artifactId>
+	<version>1.0.2-${build.number}</version>
+	<groupId>de.linzn</groupId>
+	<dependencyManagement>
+		<dependencies>
+		</dependencies>
+	</dependencyManagement>
 	<properties>
 		<build.number>SNAPSHOT</build.number>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
