@@ -1,5 +1,6 @@
 package de.nlinz.xeonSuite.teleport;
 
+import org.bstats.Metrics;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.nlinz.javaSocket.client.api.XeonSocketClientManager;
@@ -26,6 +27,7 @@ public class Teleportplugin extends JavaPlugin {
 		loadCommands();
 		XeonSocketClientManager.registerDataListener(new XeonTeleport());
 		getServer().getPluginManager().registerEvents(new TeleportListener(), this);
+		new Metrics(this);
 	}
 
 	@Override
