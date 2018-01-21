@@ -1,26 +1,22 @@
-name: XeonSuiteTeleport
+name: MineSuiteTeleport
 version: ${project.version}
-description: Teleportplugin
+description: TeleportPlugin
 authors: [Kekshaus]
-main: de.nlinz.xeonSuite.teleport.Teleportplugin
+main: de.linzn.mineSuite.teleport.TeleportPlugin
 load: POSTWORLD
-depend: [XeonSuiteBukkit]
+depend: [MineSuiteCore]
 
 commands:
   setspawn:
-    description: Set a SpawnType serverspawn
-  setlobby:
-    description: Set a SpawnType lobby
+    description: Set a SpawnType
+  unsetspawn:
+    description: Unset a SpawnType
   lobby:
     description: Teleport to Lobby.
     aliases: [hub, proxyspawn, globalspawn, gs]
   spawn:
     description: Teleport to a SpawnType.
     aliases: [ss, ws, serverspawn, worldspawn]
-  dellobby:
-    description: Delete a SpawnType
-  delspawn:
-    description: Delete a SpawnType
   tp:
     description: Delete a SpawnType
   tphere:
@@ -36,62 +32,50 @@ commands:
   tpdeny:
     description: Delete a SpawnType
 permissions:
-    xeonSuite.teleport.team:
+    mineSuite.teleport.team:
         description: Alle Permissions
         children:
-            xeonSuite.teleport.user: true
-            xeonSuite.teleport.setspawn: true
-            xeonSuite.teleport.delspawn: true
-            xeonSuite.teleport.dellobby: true
-            xeonSuite.teleport.setlobby: true
-            xeonSuite.teleport.tp: true
-            xeonSuite.teleport.tphere: true
-    xeonSuite.teleport.user:
+            mineSuite.teleport.user: true
+            mineSuite.teleport.setspawn: true
+            mineSuite.teleport.tp: true
+            mineSuite.teleport.tphere: true
+    mineSuite.teleport.user:
         description: Alle Permissions
         children:
-            xeonSuite.teleport.lobby: true
-            xeonSuite.teleport.spawn: true
-            xeonSuite.teleport.back: true
-            xeonSuite.teleport.tpa: true
-            xeonSuite.teleport.tpahere: true
-            xeonSuite.teleport.tpaccept: true
-            xeonSuite.teleport.tpdeny: true
-    xeonSuite.teleport.lobby:
+            mineSuite.teleport.lobby: true
+            mineSuite.teleport.spawn: true
+            mineSuite.teleport.back: true
+            mineSuite.teleport.tpa: true
+            mineSuite.teleport.tpahere: true
+            mineSuite.teleport.tpaccept: true
+            mineSuite.teleport.tpdeny: true
+    mineSuite.teleport.lobby:
         description: Teleport to lobby
         default: op
-    xeonSuite.teleport.setspawn:
+    mineSuite.teleport.setspawn:
         description: Teleport to lobby
         default: op
-    xeonSuite.teleport.setlobby:
-        description: Teleport to lobby
-        default: op
-    xeonSuite.teleport.delspawn:
-        description: Teleport to lobby
-        default: op
-    xeonSuite.teleport.dellobby:
-        description: Teleport to lobby
-        default: op
-    xeonSuite.teleport.spawn:
+    mineSuite.teleport.spawn:
         description: Teleport to spawn
         default: op
-    xeonSuite.teleport.back:
+    mineSuite.teleport.back:
         description: Teleport to spawn
         default: op
-    xeonSuite.teleport.tp:
+    mineSuite.teleport.tp:
         description: Teleport to spawn
         default: op
-    xeonSuite.teleport.tphere:
+    mineSuite.teleport.tphere:
         description: Teleport to spawn
         default: op
-    xeonSuite.teleport.tpa:
+    mineSuite.teleport.tpa:
         description: Teleport to spawn
         default: op
-    xeonSuite.teleport.tpahere:
+    mineSuite.teleport.tpahere:
         description: Teleport to spawn
         default: op
-    xeonSuite.teleport.tpaccept:
+    mineSuite.teleport.tpaccept:
         description: Teleport to spawn
         default: op
-    xeonSuite.teleport.tpdeny:
+    mineSuite.teleport.tpdeny:
         description: Teleport to spawn
         default: op
