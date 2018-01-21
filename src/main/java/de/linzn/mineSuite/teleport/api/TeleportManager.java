@@ -28,7 +28,9 @@ public class TeleportManager {
         Player p = Bukkit.getPlayer(player);
         Player t = Bukkit.getPlayer(target);
         if (p != null) {
+            Bukkit.getScheduler().runTask(TeleportPlugin.inst(), () -> {
             p.teleport(t);
+            });
         } else {
             TeleportDataTable.pendingTeleport.put(player, t);
             // clear pending teleport if they dont connect
@@ -54,6 +56,7 @@ public class TeleportManager {
         }
         Player p = Bukkit.getPlayer(player);
         if (p != null) {
+            Bukkit.getScheduler().runTask(TeleportPlugin.inst(), () -> {
             // Check if Block is safe
             if (LocationUtil.isBlockUnsafe(t.getWorld(), t.getBlockX(), t.getBlockY(), t.getBlockZ())) {
                 try {
@@ -73,6 +76,7 @@ public class TeleportManager {
                 p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
                 return;
             }
+            });
         } else {
             TeleportDataTable.pendingTeleportLocations.put(player, t);
             // clear pending teleport if they dont connect

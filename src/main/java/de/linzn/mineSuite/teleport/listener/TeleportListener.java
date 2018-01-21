@@ -43,16 +43,16 @@ public class TeleportListener implements Listener {
             }
             TeleportDataTable.ignoreTeleport.add(e.getPlayer());
             e.setSpawnLocation(t.getLocation());
-            sendWarpMSG(e.getPlayer());
+            sendTeleportMSG(e.getPlayer());
         } else if (TeleportDataTable.pendingTeleportLocations.containsKey(e.getPlayer().getName())) {
             Location l = TeleportDataTable.pendingTeleportLocations.get(e.getPlayer().getName());
             TeleportDataTable.ignoreTeleport.add(e.getPlayer());
             e.setSpawnLocation(l);
-            sendWarpMSG(e.getPlayer());
+            sendTeleportMSG(e.getPlayer());
         }
     }
 
-    public void sendWarpMSG(final Player p) {
+    public void sendTeleportMSG(final Player p) {
         Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
             TeleportDataTable.ignoreTeleport.remove(p);
             p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
