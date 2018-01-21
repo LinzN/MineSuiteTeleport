@@ -40,16 +40,16 @@ public class JClientTeleportListener implements IncomingDataListener {
 
             subChannel = in.readUTF();
 
-            if (subChannel.equals("TeleportToLocation")) {
+            if (subChannel.equals("server_teleport_teleport-location")) {
                 TeleportManager.teleportToLocation(in.readUTF(), in.readUTF(), in.readDouble(), in.readDouble(),
                         in.readDouble(), in.readFloat(), in.readFloat());
             }
 
-            if (subChannel.equals("TeleportToPlayer")) {
+            if (subChannel.equals("server_teleport_teleport-to-player")) {
                 TeleportManager.teleportPlayerToPlayer(in.readUTF(), in.readUTF());
             }
 
-            if (subChannel.equals("TeleportAccept")) {
+            if (subChannel.equals("server_teleport_tpa-accept")) {
                 JClientTeleportOutput.finishTPA(Bukkit.getPlayerExact(in.readUTF()), in.readUTF());
             }
 
