@@ -33,7 +33,7 @@ public class TpCommand implements CommandExecutor {
             this.executorServiceCommands.submit(() -> {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-                    if ((args.length >= 1))
+                    if (args.length >= 1){
                         if ((args.length == 1)) {
                             String target = args[0].toLowerCase();
 
@@ -54,7 +54,7 @@ public class TpCommand implements CommandExecutor {
                         } else if ((args.length == 5)) {
 
                         } else if ((args.length == 6)) {
-
+                        }
                         } else {
                             sender.sendMessage("/tp <Playername>");
                             sender.sendMessage("/tp <Playername> <Playername>");
