@@ -212,13 +212,14 @@ public class JClientTeleportOutput {
         MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
-    public static void sendDeathBackLocation(Player p) {
+    public static void sendDeathBackLocation(Player p, String serverName) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         try {
             dataOutputStream.writeUTF("client_teleport_set-dead-location");
             dataOutputStream.writeUTF(p.getName());
             Location l = p.getLocation();
+            dataOutputStream.writeUTF(serverName);
             dataOutputStream.writeUTF(l.getWorld().getName());
             dataOutputStream.writeDouble(l.getX());
             dataOutputStream.writeDouble(l.getY());

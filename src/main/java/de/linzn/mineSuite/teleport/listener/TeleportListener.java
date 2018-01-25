@@ -26,8 +26,9 @@ import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 public class TeleportListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void playerDeath(PlayerDeathEvent e) {
+        String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
         if (!MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.DISABLED_WORLDS.contains(e.getEntity().getLocation().getWorld().getName())) {
-            JClientTeleportOutput.sendDeathBackLocation(e.getEntity());
+            JClientTeleportOutput.sendDeathBackLocation(e.getEntity(), serverName);
             TeleportDataTable.ignoreTeleport.add(e.getEntity());
         }
     }
