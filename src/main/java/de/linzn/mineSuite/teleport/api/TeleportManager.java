@@ -12,9 +12,11 @@
 package de.linzn.mineSuite.teleport.api;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
+import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
 import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.core.utils.LocationUtil;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
+import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -63,7 +65,7 @@ public class TeleportManager {
                         Location l = LocationUtil.getSafeDestination(p, t);
                         if (l != null) {
                             p.teleport(l);
-                            p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
+                            p.sendMessage(GeneralLanguage.teleport_success);
 
                         } else {
                             p.sendMessage(ChatColor.RED + "Unable to find a safe location for teleport.");
@@ -73,8 +75,7 @@ public class TeleportManager {
                     }
                 } else {
                     p.teleport(t);
-                    p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
-                    return;
+                    p.sendMessage(GeneralLanguage.teleport_success);
                 }
             });
         } else {
@@ -86,6 +87,14 @@ public class TeleportManager {
                 }
             }, 100L);
         }
+
+    }
+
+    public static void finishTPA(UUID playerUUID, UUID targetUUID) {
+        Player player = Bukkit.getPlayer(playerUUID);
+        player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
+        TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
+                () -> JClientTeleportOutput.teleportToPlayerUUID(player.getUniqueId(), targetUUID), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
 
     }
 

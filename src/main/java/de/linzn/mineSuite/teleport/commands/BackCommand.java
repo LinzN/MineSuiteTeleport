@@ -12,10 +12,9 @@
 package de.linzn.mineSuite.teleport.commands;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
-import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
+import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -35,27 +34,12 @@ public class BackCommand implements CommandExecutor {
         final Player player = (Player) sender;
         if (player.hasPermission("mineSuite.teleport.back")) {
             this.executorServiceCommands.submit(() -> {
-                if (!player.hasPermission("mineSuite.bypass")) {
-                    PendingTeleportsData.checkMoveLocation.put(player.getUniqueId(), player.getLocation());
-                    player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_TIMER.replace("{TIME}",
-                            String.valueOf(MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP)));
-                    TeleportPlugin.inst().getServer().getScheduler().runTaskLater(TeleportPlugin.inst(),
-                            () -> {
-                                Location loc = PendingTeleportsData.checkMoveLocation.get(player.getUniqueId());
-                                PendingTeleportsData.checkMoveLocation.remove(player.getUniqueId());
-                                if ((loc != null)
-                                        && (loc.getBlock().equals(player.getLocation().getBlock()))) {
-                                    JClientTeleportOutput.sendPlayerBack(player.getUniqueId());
-                                } else {
-                                    player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_MOVE_CANCEL);
-                                }
-                            }, 20L * MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
-                } else {
-                    JClientTeleportOutput.sendPlayerBack(player.getUniqueId());
-                }
+                player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
+                TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
+                        () -> JClientTeleportOutput.sendPlayerBack(player.getUniqueId()), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
             });
         } else {
-            player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.NO_PERMISSIONS);
+            player.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
         }
         return false;
     }

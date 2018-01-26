@@ -11,7 +11,7 @@
 
 package de.linzn.mineSuite.teleport.commands;
 
-import de.linzn.mineSuite.core.MineSuiteCorePlugin;
+import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -41,7 +41,7 @@ public class TpaCommand implements CommandExecutor {
                 }
             });
         } else {
-            sender.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.NO_PERMISSIONS);
+            sender.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
         }
         return false;
     }

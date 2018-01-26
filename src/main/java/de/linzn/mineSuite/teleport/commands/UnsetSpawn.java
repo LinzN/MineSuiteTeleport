@@ -12,6 +12,7 @@
 package de.linzn.mineSuite.teleport.commands;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
+import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -45,7 +46,7 @@ public class UnsetSpawn implements CommandExecutor {
                 }
             });
         } else {
-            sender.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.NO_PERMISSIONS);
+            sender.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
         }
         return true;
     }

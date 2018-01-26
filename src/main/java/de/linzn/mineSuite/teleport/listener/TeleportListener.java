@@ -12,6 +12,7 @@
 package de.linzn.mineSuite.teleport.listener;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
+import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
 import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
@@ -39,14 +40,14 @@ public class TeleportListener implements Listener {
             Location l = PendingTeleportsData.pendingLocations.get(e.getPlayer().getUniqueId());
             PendingTeleportsData.ignoreActions.add(e.getPlayer().getUniqueId());
             e.setSpawnLocation(l);
-            sendWarpMSG(e.getPlayer());
+            sendMSG(e.getPlayer());
         }
     }
 
-    private void sendWarpMSG(final Player p) {
+    private void sendMSG(final Player p) {
         Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
             PendingTeleportsData.ignoreActions.remove(p.getUniqueId());
-            p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
-        }, 20);
+            p.sendMessage(GeneralLanguage.teleport_success);
+        }, 10);
     }
 }

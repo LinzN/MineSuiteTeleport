@@ -12,8 +12,6 @@
 package de.linzn.mineSuite.teleport.socket;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
-import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
-import de.linzn.mineSuite.teleport.TeleportPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -150,32 +148,6 @@ public class JClientTeleportOutput {
         MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
-    public static void finishTPA(UUID playerUUID, UUID targetUUID) {
-        Player player = Bukkit.getPlayer(playerUUID);
-        if (!player.hasPermission("mineSuite.bypass")) {
-            PendingTeleportsData.checkMoveLocation.put(player.getUniqueId(), player.getLocation());
-
-            player.sendMessage(
-                    MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_TIMER.replace("{TIME}", String.valueOf(MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP)));
-            TeleportPlugin.inst().getServer().getScheduler().runTaskLater(TeleportPlugin.inst(),
-                    () -> {
-                        Location loc = PendingTeleportsData.checkMoveLocation.get(player.getUniqueId());
-                        PendingTeleportsData.checkMoveLocation.remove(player.getUniqueId());
-                        if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
-                            player.saveData();
-                            teleportToPlayerUUID(player.getUniqueId(), targetUUID);
-
-                        } else {
-                            player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_MOVE_CANCEL);
-
-                        }
-                    }, 20L * MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
-        } else {
-            player.saveData();
-            teleportToPlayerUUID(player.getUniqueId(), targetUUID);
-
-        }
-    }
 
     public static void teleportToPlayerUUID(UUID playerUUID, UUID targetUUID) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();

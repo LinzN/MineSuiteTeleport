@@ -54,7 +54,7 @@ public class JClientTeleportListener implements IncomingDataListener {
             if (subChannel.equals("server_teleport_tpa-accept")) {
                 UUID playerUUID = UUID.fromString(in.readUTF());
                 UUID targetUUID = UUID.fromString(in.readUTF());
-                JClientTeleportOutput.finishTPA(playerUUID, targetUUID);
+                TeleportManager.finishTPA(playerUUID, targetUUID);
             }
 
         } catch (IOException e1) {
