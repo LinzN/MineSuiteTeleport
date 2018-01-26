@@ -33,9 +33,7 @@ public class TpDenyCommand implements CommandExecutor {
             this.executorServiceCommands.submit(() -> {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-                    JClientTeleportOutput.tpDeny(player.getName());
-                    return;
-
+                    JClientTeleportOutput.tpDeny(player.getUniqueId());
                 }
             });
         } else {

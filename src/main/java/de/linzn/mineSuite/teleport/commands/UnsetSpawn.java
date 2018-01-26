@@ -38,13 +38,10 @@ public class UnsetSpawn implements CommandExecutor {
                         sender.sendMessage("Du musst einen SpawnType angeben. Z.b. ServerSpawn oder lobby");
                         return;
                     }
-
                     String spawnType = args[0].toLowerCase();
                     Location coords = player.getLocation();
                     String server = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
                     JClientTeleportOutput.unsetSpawnType(player.getUniqueId(), spawnType, server, coords.getWorld().getName());
-                    return;
-
                 }
             });
         } else {

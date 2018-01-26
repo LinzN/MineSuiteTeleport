@@ -12,7 +12,7 @@
 package de.linzn.mineSuite.teleport.listener;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
-import de.linzn.mineSuite.core.database.hashDatabase.TeleportDataTable;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.Bukkit;
@@ -29,35 +29,24 @@ public class TeleportListener implements Listener {
         String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
         if (!MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.DISABLED_WORLDS.contains(e.getEntity().getLocation().getWorld().getName())) {
             JClientTeleportOutput.sendDeathBackLocation(e.getEntity(), serverName);
-            TeleportDataTable.ignoreTeleport.add(e.getEntity());
+            PendingTeleportsData.ignoreActions.add(e.getEntity().getUniqueId());
         }
     }
 
     @EventHandler
     public void playerConnect(PlayerSpawnLocationEvent e) {
-        if (TeleportDataTable.pendingTeleport.containsKey(e.getPlayer().getName())) {
-            Player t = TeleportDataTable.pendingTeleport.get(e.getPlayer().getName());
-            TeleportDataTable.pendingTeleport.remove(e.getPlayer().getName());
-            if ((t == null) || (!t.isOnline())) {
-                e.getPlayer().sendMessage("Player is no longer online");
-                return;
-            }
-            TeleportDataTable.ignoreTeleport.add(e.getPlayer());
-            e.setSpawnLocation(t.getLocation());
-            sendTeleportMSG(e.getPlayer());
-        } else if (TeleportDataTable.pendingTeleportLocations.containsKey(e.getPlayer().getName())) {
-            Location l = TeleportDataTable.pendingTeleportLocations.get(e.getPlayer().getName());
-            TeleportDataTable.ignoreTeleport.add(e.getPlayer());
+        if (PendingTeleportsData.pendingLocations.containsKey(e.getPlayer().getUniqueId())) {
+            Location l = PendingTeleportsData.pendingLocations.get(e.getPlayer().getUniqueId());
+            PendingTeleportsData.ignoreActions.add(e.getPlayer().getUniqueId());
             e.setSpawnLocation(l);
-            sendTeleportMSG(e.getPlayer());
+            sendWarpMSG(e.getPlayer());
         }
     }
 
-    public void sendTeleportMSG(final Player p) {
+    private void sendWarpMSG(final Player p) {
         Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
-            TeleportDataTable.ignoreTeleport.remove(p);
+            PendingTeleportsData.ignoreActions.remove(p.getUniqueId());
             p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
         }, 20);
-
     }
 }

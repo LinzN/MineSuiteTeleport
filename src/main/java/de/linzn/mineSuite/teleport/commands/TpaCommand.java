@@ -35,7 +35,6 @@ public class TpaCommand implements CommandExecutor {
                     if ((args.length >= 1)) {
                         String target = args[0].toLowerCase();
                         JClientTeleportOutput.tpaRequest(player, target);
-                        return;
                     } else {
                         sender.sendMessage("Du musst einen Player angeben!");
                     }

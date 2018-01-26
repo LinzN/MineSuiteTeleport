@@ -12,7 +12,7 @@
 package de.linzn.mineSuite.teleport.socket;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
-import de.linzn.mineSuite.core.database.hashDatabase.TeleportDataTable;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -122,15 +122,14 @@ public class JClientTeleportOutput {
         MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
-    public static void tpAccept(final CommandSender sender) {
-        final Player player = Bukkit.getPlayer(sender.getName());
-
+    public static void tpAccept(UUID playerUUID) {
+        final Player player = Bukkit.getPlayer(playerUUID);
         player.saveData();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         try {
             dataOutputStream.writeUTF("client_teleport_tpa-accept");
-            dataOutputStream.writeUTF(sender.getName());
+            dataOutputStream.writeUTF(player.getUniqueId().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -138,12 +137,12 @@ public class JClientTeleportOutput {
         MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
-    public static void tpDeny(String sender) {
+    public static void tpDeny(UUID playerUUID) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         try {
             dataOutputStream.writeUTF("client_teleport_tpa-deny");
-            dataOutputStream.writeUTF(sender);
+            dataOutputStream.writeUTF(playerUUID.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -151,18 +150,20 @@ public class JClientTeleportOutput {
         MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
-    public static void finishTPA(final Player player, final String target) {
+    public static void finishTPA(UUID playerUUID, UUID targetUUID) {
+        Player player = Bukkit.getPlayer(playerUUID);
         if (!player.hasPermission("mineSuite.bypass")) {
-            TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
+            PendingTeleportsData.checkMoveLocation.put(player.getUniqueId(), player.getLocation());
+
             player.sendMessage(
                     MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_TIMER.replace("{TIME}", String.valueOf(MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP)));
             TeleportPlugin.inst().getServer().getScheduler().runTaskLater(TeleportPlugin.inst(),
                     () -> {
-                        Location loc = TeleportDataTable.lastTeleportLocation.get(player);
-                        TeleportDataTable.lastTeleportLocation.remove(player);
+                        Location loc = PendingTeleportsData.checkMoveLocation.get(player.getUniqueId());
+                        PendingTeleportsData.checkMoveLocation.remove(player.getUniqueId());
                         if ((loc != null) && (loc.getBlock().equals(player.getLocation().getBlock()))) {
                             player.saveData();
-                            teleportToPlayer(player.getName(), target);
+                            teleportToPlayerUUID(player.getUniqueId(), targetUUID);
 
                         } else {
                             player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_MOVE_CANCEL);
@@ -171,9 +172,24 @@ public class JClientTeleportOutput {
                     }, 20L * MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
         } else {
             player.saveData();
-            teleportToPlayer(player.getName(), target);
+            teleportToPlayerUUID(player.getUniqueId(), targetUUID);
 
         }
+    }
+
+    public static void teleportToPlayerUUID(UUID playerUUID, UUID targetUUID) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+        try {
+            dataOutputStream.writeUTF("client_teleport_teleport-to-player-uuid");
+            dataOutputStream.writeUTF(playerUUID.toString());
+            dataOutputStream.writeUTF(targetUUID.toString());
+            dataOutputStream.writeBoolean(true);
+            dataOutputStream.writeBoolean(true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
     public static void teleportToPlayer(final String playerName, final String target) {
@@ -191,13 +207,13 @@ public class JClientTeleportOutput {
         MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
-    public static void sendTeleportToLocationOut(String player, String server, String world, Double x, Double y,
+    public static void sendTeleportToLocationOut(UUID playerUUID, String server, String world, Double x, Double y,
                                                  Double z, Float yaw, Float pitch) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         try {
             dataOutputStream.writeUTF("client_teleport_teleport-location");
-            dataOutputStream.writeUTF(player);
+            dataOutputStream.writeUTF(playerUUID.toString());
             dataOutputStream.writeUTF(server);
             dataOutputStream.writeUTF(world);
             dataOutputStream.writeDouble(x);
@@ -217,7 +233,7 @@ public class JClientTeleportOutput {
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         try {
             dataOutputStream.writeUTF("client_teleport_set-dead-location");
-            dataOutputStream.writeUTF(p.getName());
+            dataOutputStream.writeUTF(p.getUniqueId().toString());
             Location l = p.getLocation();
             dataOutputStream.writeUTF(serverName);
             dataOutputStream.writeUTF(l.getWorld().getName());
@@ -233,15 +249,12 @@ public class JClientTeleportOutput {
         MineSuiteCorePlugin.getInstance().getMineJSocketClient().jClientConnection1.writeOutput("mineSuiteTeleport", byteArrayOutputStream.toByteArray());
     }
 
-    public static void sendPlayerBack(final CommandSender sender) {
-        final Player player = Bukkit.getPlayer(sender.getName());
-
-        player.saveData();
+    public static void sendPlayerBack(UUID playerUUID) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
         try {
             dataOutputStream.writeUTF("client_teleport_teleport-player-back");
-            dataOutputStream.writeUTF(sender.getName());
+            dataOutputStream.writeUTF(playerUUID.toString());
             dataOutputStream.writeBoolean(true);
             dataOutputStream.writeBoolean(false);
         } catch (IOException e) {

@@ -12,7 +12,7 @@
 package de.linzn.mineSuite.teleport.commands;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
-import de.linzn.mineSuite.core.database.hashDatabase.TeleportDataTable;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.Location;
@@ -34,33 +34,27 @@ public class SpawnCommand implements CommandExecutor {
         final Player player = (Player) sender;
         if (player.hasPermission("mineSuite.teleport.spawn")) {
             this.executorServiceCommands.submit(() -> {
-                if (sender instanceof Player) {
-                    final String spawnType = "serverspawn";
+                final String spawnType = "serverspawn";
 
-                    final String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
+                final String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
 
-                    if (!player.hasPermission("mineSuite.bypass")) {
-                        TeleportDataTable.lastTeleportLocation.put(player, player.getLocation());
-                        player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_TIMER.replace("{TIME}",
-                                String.valueOf(MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP)));
-                        TeleportPlugin.inst().getServer().getScheduler().runTaskLater(TeleportPlugin.inst(),
-                                () -> {
-                                    Location loc = TeleportDataTable.lastTeleportLocation.get(player);
-                                    TeleportDataTable.lastTeleportLocation.remove(player);
-                                    if ((loc != null)
-                                            && (loc.getBlock().equals(player.getLocation().getBlock()))) {
-                                        JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName());
-                                        return;
-                                    } else {
-                                        player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_MOVE_CANCEL);
-
-                                    }
-                                }, 20L * MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
-                    } else {
-                        JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName());
-                        return;
-                    }
-
+                if (!player.hasPermission("mineSuite.bypass")) {
+                    PendingTeleportsData.checkMoveLocation.put(player.getUniqueId(), player.getLocation());
+                    player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_TIMER.replace("{TIME}",
+                            String.valueOf(MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP)));
+                    TeleportPlugin.inst().getServer().getScheduler().runTaskLater(TeleportPlugin.inst(),
+                            () -> {
+                                Location loc = PendingTeleportsData.checkMoveLocation.get(player.getUniqueId());
+                                PendingTeleportsData.checkMoveLocation.remove(player.getUniqueId());
+                                if ((loc != null)
+                                        && (loc.getBlock().equals(player.getLocation().getBlock()))) {
+                                    JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName());
+                                } else {
+                                    player.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.TELEPORT_MOVE_CANCEL);
+                                }
+                            }, 20L * MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
+                } else {
+                    JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName());
                 }
             });
         } else {

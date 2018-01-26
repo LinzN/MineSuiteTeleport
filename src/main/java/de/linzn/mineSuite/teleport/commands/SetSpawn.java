@@ -43,8 +43,6 @@ public class SetSpawn implements CommandExecutor {
                     Location coords = player.getLocation();
                     String server = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
                     JClientTeleportOutput.setSpawnType(player.getUniqueId(), spawnType, server, coords);
-                    return;
-
                 }
             });
         } else {

@@ -35,9 +35,7 @@ public class TpHereCommand implements CommandExecutor {
                     Player player = (Player) sender;
                     if ((args.length >= 1)) {
                         String target = args[0].toLowerCase();
-
                         JClientTeleportOutput.teleportToPlayer(target, player.getName());
-                        return;
                     } else {
                         sender.sendMessage("Du musst einen Player angeben!");
                     }

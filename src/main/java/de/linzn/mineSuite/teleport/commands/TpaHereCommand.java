@@ -36,7 +36,6 @@ public class TpaHereCommand implements CommandExecutor {
                     if ((args.length >= 1)) {
                         String target = args[0].toLowerCase();
                         JClientTeleportOutput.tpaHereRequest(player, target);
-                        return;
                     } else {
                         sender.sendMessage("Du musst einen Player angeben!");
                     }

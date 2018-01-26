@@ -12,7 +12,7 @@
 package de.linzn.mineSuite.teleport.api;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
-import de.linzn.mineSuite.core.database.hashDatabase.TeleportDataTable;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.core.utils.LocationUtil;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import org.bukkit.Bukkit;
@@ -21,29 +21,29 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.UUID;
+
 
 public class TeleportManager {
 
-    public static void teleportPlayerToPlayer(final String player, String target) {
-        Player p = Bukkit.getPlayer(player);
-        Player t = Bukkit.getPlayer(target);
+    public static void teleportPlayerToPlayer(UUID playerUUID, UUID targetUUID) {
+        Player p = Bukkit.getPlayer(playerUUID);
+        Player t = Bukkit.getPlayer(targetUUID);
         if (p != null) {
-            Bukkit.getScheduler().runTask(TeleportPlugin.inst(), () -> {
-            p.teleport(t);
-            });
+            Bukkit.getScheduler().runTask(TeleportPlugin.inst(), () -> p.teleport(t));
         } else {
-            TeleportDataTable.pendingTeleport.put(player, t);
+            PendingTeleportsData.pendingLocations.put(playerUUID, t.getLocation());
             // clear pending teleport if they dont connect
             Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
-                if (TeleportDataTable.pendingTeleport.containsKey(player)) {
-                    TeleportDataTable.pendingTeleport.remove(player);
+                if (PendingTeleportsData.pendingLocations.containsKey(playerUUID)) {
+                    PendingTeleportsData.pendingLocations.remove(playerUUID);
                 }
 
             }, 100L);
         }
     }
 
-    public static void teleportToLocation(final String player, String world, double x, double y, double z, float yaw,
+    public static void teleportToLocation(UUID playerUUID, String world, double x, double y, double z, float yaw,
                                           float pitch) {
         World w = Bukkit.getWorld(world);
         Location t;
@@ -54,35 +54,35 @@ public class TeleportManager {
             w = Bukkit.getWorlds().get(0);
             t = w.getSpawnLocation();
         }
-        Player p = Bukkit.getPlayer(player);
+        Player p = Bukkit.getPlayer(playerUUID);
         if (p != null) {
             Bukkit.getScheduler().runTask(TeleportPlugin.inst(), () -> {
-            // Check if Block is safe
-            if (LocationUtil.isBlockUnsafe(t.getWorld(), t.getBlockX(), t.getBlockY(), t.getBlockZ())) {
-                try {
-                    Location l = LocationUtil.getSafeDestination(p, t);
-                    if (l != null) {
-                        p.teleport(l);
-                        p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
+                // Check if Block is safe
+                if (LocationUtil.isBlockUnsafe(t.getWorld(), t.getBlockX(), t.getBlockY(), t.getBlockZ())) {
+                    try {
+                        Location l = LocationUtil.getSafeDestination(p, t);
+                        if (l != null) {
+                            p.teleport(l);
+                            p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
 
-                    } else {
-                        p.sendMessage(ChatColor.RED + "Unable to find a safe location for teleport.");
+                        } else {
+                            p.sendMessage(ChatColor.RED + "Unable to find a safe location for teleport.");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } else {
+                    p.teleport(t);
+                    p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
+                    return;
                 }
-            } else {
-                p.teleport(t);
-                p.sendMessage(MineSuiteCorePlugin.getInstance().getMineConfigs().generalLanguage.Teleport_Teleport);
-                return;
-            }
             });
         } else {
-            TeleportDataTable.pendingTeleportLocations.put(player, t);
+            PendingTeleportsData.pendingLocations.put(playerUUID, t);
             // clear pending teleport if they dont connect
             Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
-                if (TeleportDataTable.pendingTeleportLocations.containsKey(player)) {
-                    TeleportDataTable.pendingTeleportLocations.remove(player);
+                if (PendingTeleportsData.pendingLocations.containsKey(playerUUID)) {
+                    PendingTeleportsData.pendingLocations.remove(playerUUID);
                 }
             }, 100L);
         }

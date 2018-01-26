@@ -33,9 +33,7 @@ public class TpAcceptCommand implements CommandExecutor {
             this.executorServiceCommands.submit(() -> {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-                    JClientTeleportOutput.tpAccept(player);
-                    return;
-
+                    JClientTeleportOutput.tpAccept(player.getUniqueId());
                 }
             });
         } else {

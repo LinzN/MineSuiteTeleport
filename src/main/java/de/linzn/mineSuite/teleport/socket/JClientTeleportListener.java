@@ -14,7 +14,6 @@ package de.linzn.mineSuite.teleport.socket;
 import de.linzn.jSocket.core.IncomingDataListener;
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.teleport.api.TeleportManager;
-import org.bukkit.Bukkit;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -41,16 +40,21 @@ public class JClientTeleportListener implements IncomingDataListener {
             subChannel = in.readUTF();
 
             if (subChannel.equals("server_teleport_teleport-location")) {
-                TeleportManager.teleportToLocation(in.readUTF(), in.readUTF(), in.readDouble(), in.readDouble(),
+                UUID playerUUID = UUID.fromString(in.readUTF());
+                TeleportManager.teleportToLocation(playerUUID, in.readUTF(), in.readDouble(), in.readDouble(),
                         in.readDouble(), in.readFloat(), in.readFloat());
             }
 
             if (subChannel.equals("server_teleport_teleport-to-player")) {
-                TeleportManager.teleportPlayerToPlayer(in.readUTF(), in.readUTF());
+                UUID playerUUID = UUID.fromString(in.readUTF());
+                UUID targetUUID = UUID.fromString(in.readUTF());
+                TeleportManager.teleportPlayerToPlayer(playerUUID, targetUUID);
             }
 
             if (subChannel.equals("server_teleport_tpa-accept")) {
-                JClientTeleportOutput.finishTPA(Bukkit.getPlayerExact(in.readUTF()), in.readUTF());
+                UUID playerUUID = UUID.fromString(in.readUTF());
+                UUID targetUUID = UUID.fromString(in.readUTF());
+                JClientTeleportOutput.finishTPA(playerUUID, targetUUID);
             }
 
         } catch (IOException e1) {

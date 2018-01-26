@@ -33,20 +33,14 @@ public class TpCommand implements CommandExecutor {
             this.executorServiceCommands.submit(() -> {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-                    if (args.length >= 1){
+                    if (args.length >= 1) {
                         if ((args.length == 1)) {
                             String target = args[0].toLowerCase();
-
                             JClientTeleportOutput.teleportToPlayer(player.getName(), target);
-
-                            return;
                         } else if ((args.length == 2)) {
                             String target1 = args[0].toLowerCase();
                             String target2 = args[1].toLowerCase();
-
                             JClientTeleportOutput.teleportToPlayer(target1, target2);
-
-                            return;
                         } else if ((args.length == 3)) {
 
                         } else if ((args.length == 4)) {
@@ -55,14 +49,14 @@ public class TpCommand implements CommandExecutor {
 
                         } else if ((args.length == 6)) {
                         }
-                        } else {
-                            sender.sendMessage("/tp <Playername>");
-                            sender.sendMessage("/tp <Playername> <Playername>");
-                            sender.sendMessage("/tp <X> <Y> <Z>");
-                            sender.sendMessage("/tp <World> <X> <Y> <Z>");
-                            sender.sendMessage("/tp <Server> <World> <X> <Y> <Z>");
-                            sender.sendMessage("/tp <Playername> <Server> <World> <X> <Y> <Z>");
-                        }
+                    } else {
+                        sender.sendMessage("/tp <Playername>");
+                        sender.sendMessage("/tp <Playername> <Playername>");
+                        sender.sendMessage("/tp <X> <Y> <Z>");
+                        sender.sendMessage("/tp <World> <X> <Y> <Z>");
+                        sender.sendMessage("/tp <Server> <World> <X> <Y> <Z>");
+                        sender.sendMessage("/tp <Playername> <Server> <World> <X> <Y> <Z>");
+                    }
                 }
             });
         } else {
