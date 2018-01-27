@@ -32,7 +32,10 @@ public class TeleportManager {
         Player p = Bukkit.getPlayer(playerUUID);
         Player t = Bukkit.getPlayer(targetUUID);
         if (p != null) {
-            Bukkit.getScheduler().runTask(TeleportPlugin.inst(), () -> p.teleport(t));
+            Bukkit.getScheduler().runTask(TeleportPlugin.inst(), () -> {
+                p.setFallDistance(0F);
+                p.teleport(t);
+            });
         } else {
             PendingTeleportsData.pendingLocations.put(playerUUID, t.getLocation());
             // clear pending teleport if they dont connect
@@ -64,6 +67,7 @@ public class TeleportManager {
                     try {
                         Location l = LocationUtil.getSafeDestination(p, t);
                         if (l != null) {
+                            p.setFallDistance(0F);
                             p.teleport(l);
                             p.sendMessage(GeneralLanguage.teleport_success);
 
@@ -74,6 +78,7 @@ public class TeleportManager {
                         e.printStackTrace();
                     }
                 } else {
+                    p.setFallDistance(0F);
                     p.teleport(t);
                     p.sendMessage(GeneralLanguage.teleport_success);
                 }

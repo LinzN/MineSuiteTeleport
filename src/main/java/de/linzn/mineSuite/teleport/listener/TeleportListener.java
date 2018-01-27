@@ -22,6 +22,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 public class TeleportListener implements Listener {
@@ -39,8 +40,22 @@ public class TeleportListener implements Listener {
         if (PendingTeleportsData.pendingLocations.containsKey(e.getPlayer().getUniqueId())) {
             Location l = PendingTeleportsData.pendingLocations.get(e.getPlayer().getUniqueId());
             PendingTeleportsData.ignoreActions.add(e.getPlayer().getUniqueId());
+            e.getPlayer().setFallDistance(0F);
             e.setSpawnLocation(l);
             sendMSG(e.getPlayer());
+        } else if (!e.getPlayer().hasPlayedBefore()) {
+            String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
+            JClientTeleportOutput.teleportToSpawnType(e.getPlayer().getUniqueId(), "serverSpawn", serverName, e.getPlayer().getWorld().getName());
+        }
+    }
+
+    @EventHandler
+    public void onPlayerVoidEvent(PlayerMoveEvent e) {
+        if (e.getTo().getBlockY() < 0) {
+            e.setCancelled(true);
+            e.getPlayer().setFallDistance(0F);
+            String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
+            JClientTeleportOutput.teleportToSpawnType(e.getPlayer().getUniqueId(), "serverSpawn", serverName, e.getPlayer().getWorld().getName());
         }
     }
 
