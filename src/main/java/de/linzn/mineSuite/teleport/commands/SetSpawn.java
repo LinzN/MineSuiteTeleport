@@ -36,7 +36,7 @@ public class SetSpawn implements CommandExecutor {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (args.length < 1) {
-                        sender.sendMessage("Du musst einen SpawnType angeben. Type: ServerSpawn, lobby");
+                        sender.sendMessage(GeneralLanguage.teleport_SETSPAWN_USAGE);
                         return;
                     }
 

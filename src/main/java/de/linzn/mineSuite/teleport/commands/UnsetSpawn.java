@@ -36,7 +36,7 @@ public class UnsetSpawn implements CommandExecutor {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (args.length < 1) {
-                        sender.sendMessage("Du musst einen SpawnType angeben. Z.b. ServerSpawn oder lobby");
+                        sender.sendMessage(GeneralLanguage.teleport_UNSETSPAWN_USAGE);
                         return;
                     }
                     String spawnType = args[0].toLowerCase();
