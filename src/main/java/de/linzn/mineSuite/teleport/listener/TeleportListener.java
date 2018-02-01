@@ -44,8 +44,10 @@ public class TeleportListener implements Listener {
             e.setSpawnLocation(l);
             sendMSG(e.getPlayer());
         } else if (!e.getPlayer().hasPlayedBefore()) {
-            String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
-            JClientTeleportOutput.teleportToSpawnType(e.getPlayer().getUniqueId(), "serverSpawn", serverName, e.getPlayer().getWorld().getName());
+            Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
+                String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
+                JClientTeleportOutput.teleportToSpawnType(e.getPlayer().getUniqueId(), "serverSpawn", serverName, e.getPlayer().getWorld().getName());
+            }, 10);
         }
     }
 

@@ -12,6 +12,7 @@
 package de.linzn.mineSuite.teleport.commands;
 
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -30,9 +31,10 @@ public class TpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         if (sender.hasPermission("mineSuite.teleport.tp")) {
-            this.executorServiceCommands.submit(() -> {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
+            Player player = (Player) sender;
+            if (!PendingTeleportsData.playerCommand.contains(player.getUniqueId())) {
+                PendingTeleportsData.addCommandSpam(player.getUniqueId());
+                this.executorServiceCommands.submit(() -> {
                     if (args.length >= 1) {
                         if ((args.length == 1)) {
                             String target = args[0].toLowerCase();
@@ -57,8 +59,11 @@ public class TpCommand implements CommandExecutor {
                         sender.sendMessage("/tp <Server> <World> <X> <Y> <Z>");
                         sender.sendMessage("/tp <Playername> <Server> <World> <X> <Y> <Z>");
                     }
-                }
-            });
+
+                });
+            } else {
+                player.sendMessage(GeneralLanguage.global_COMMAND_PENDING);
+            }
         } else {
             sender.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
         }

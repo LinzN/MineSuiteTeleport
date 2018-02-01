@@ -12,6 +12,7 @@
 package de.linzn.mineSuite.teleport.commands;
 
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,17 +30,21 @@ public class TpaCommand implements CommandExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         if (sender.hasPermission("mineSuite.teleport.tpa")) {
-            this.executorServiceCommands.submit(() -> {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
+            Player player = (Player) sender;
+            if (!PendingTeleportsData.playerCommand.contains(player.getUniqueId())) {
+                PendingTeleportsData.addCommandSpam(player.getUniqueId());
+                this.executorServiceCommands.submit(() -> {
                     if ((args.length >= 1)) {
                         String target = args[0].toLowerCase();
                         JClientTeleportOutput.tpaRequest(player, target);
                     } else {
                         sender.sendMessage("Du musst einen Player angeben!");
                     }
-                }
-            });
+
+                });
+            } else {
+                player.sendMessage(GeneralLanguage.global_COMMAND_PENDING);
+            }
         } else {
             sender.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
         }

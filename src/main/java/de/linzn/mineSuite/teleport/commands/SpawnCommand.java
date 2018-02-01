@@ -13,6 +13,7 @@ package de.linzn.mineSuite.teleport.commands;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.command.Command;
@@ -32,15 +33,20 @@ public class SpawnCommand implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         final Player player = (Player) sender;
         if (player.hasPermission("mineSuite.teleport.spawn")) {
-            this.executorServiceCommands.submit(() -> {
-                final String spawnType = "serverspawn";
-                final String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
-                player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
+            if (!PendingTeleportsData.playerCommand.contains(player.getUniqueId())) {
+                PendingTeleportsData.addCommandSpam(player.getUniqueId());
                 this.executorServiceCommands.submit(() -> {
-                    TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
-                            () -> JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName()), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
+                    final String spawnType = "serverspawn";
+                    final String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
+                    player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
+                    this.executorServiceCommands.submit(() -> {
+                        TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
+                                () -> JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName()), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
+                    });
                 });
-            });
+            } else {
+                player.sendMessage(GeneralLanguage.global_COMMAND_PENDING);
+            }
         } else {
             sender.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
         }

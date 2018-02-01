@@ -13,6 +13,7 @@ package de.linzn.mineSuite.teleport.commands;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
+import de.linzn.mineSuite.core.database.hashDatabase.PendingTeleportsData;
 import de.linzn.mineSuite.teleport.TeleportPlugin;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportOutput;
 import org.bukkit.command.Command;
@@ -33,13 +34,19 @@ public class BackCommand implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         final Player player = (Player) sender;
         if (player.hasPermission("mineSuite.teleport.back")) {
-            this.executorServiceCommands.submit(() -> {
-                player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
-                TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
-                        () -> JClientTeleportOutput.sendPlayerBack(player.getUniqueId()), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
-            });
+            if (!PendingTeleportsData.playerCommand.contains(player.getUniqueId())) {
+                PendingTeleportsData.addCommandSpam(player.getUniqueId());
+                this.executorServiceCommands.submit(() -> {
+                    player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
+                    TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
+                            () -> JClientTeleportOutput.sendPlayerBack(player.getUniqueId()), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
+                });
+            } else {
+                player.sendMessage(GeneralLanguage.global_COMMAND_PENDING);
+            }
         } else {
             player.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
+
         }
         return false;
     }
