@@ -69,7 +69,6 @@ public class TeleportManager {
                         if (l != null) {
                             p.setFallDistance(0F);
                             p.teleport(l);
-                            p.sendMessage(GeneralLanguage.teleport_success);
 
                         } else {
                             p.sendMessage(ChatColor.RED + "Unable to find a safe location for teleport.");
@@ -80,7 +79,6 @@ public class TeleportManager {
                 } else {
                     p.setFallDistance(0F);
                     p.teleport(t);
-                    p.sendMessage(GeneralLanguage.teleport_success);
                 }
             });
         } else {

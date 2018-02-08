@@ -42,7 +42,6 @@ public class TeleportListener implements Listener {
             PendingTeleportsData.ignoreActions.add(e.getPlayer().getUniqueId());
             e.getPlayer().setFallDistance(0F);
             e.setSpawnLocation(l);
-            sendMSG(e.getPlayer());
         } else if (!e.getPlayer().hasPlayedBefore()) {
             Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
                 String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
@@ -61,10 +60,4 @@ public class TeleportListener implements Listener {
         }
     }
 
-    private void sendMSG(final Player p) {
-        Bukkit.getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(), () -> {
-            PendingTeleportsData.ignoreActions.remove(p.getUniqueId());
-            p.sendMessage(GeneralLanguage.teleport_success);
-        }, 10);
-    }
 }
