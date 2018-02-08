@@ -9,7 +9,7 @@
  *
  */
 
-package de.linzn.mineSuite.teleport.commands;
+package de.linzn.mineSuite.teleport.commands.teleport;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
@@ -38,10 +38,9 @@ public class LobbyCommand implements CommandExecutor {
                 this.executorServiceCommands.submit(() -> {
                     String spawnType = "lobby";
                     String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
-                    player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
                     this.executorServiceCommands.submit(() -> {
-                        TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
-                                () -> JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName()), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
+                        TeleportPlugin.inst().getServer().getScheduler().runTaskAsynchronously(TeleportPlugin.inst(),
+                                () -> JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName()));
                     });
                 });
             } else {

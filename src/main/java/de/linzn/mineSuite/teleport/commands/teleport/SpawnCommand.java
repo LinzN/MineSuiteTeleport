@@ -9,7 +9,7 @@
  *
  */
 
-package de.linzn.mineSuite.teleport.commands;
+package de.linzn.mineSuite.teleport.commands.teleport;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
@@ -25,28 +25,29 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
-public class BackCommand implements CommandExecutor {
+public class SpawnCommand implements CommandExecutor {
     public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>());
 
     @Override
     public boolean onCommand(final CommandSender sender, Command cmd, String label, final String[] args) {
         final Player player = (Player) sender;
-        if (player.hasPermission("mineSuite.teleport.back")) {
+        if (player.hasPermission("mineSuite.teleport.spawn")) {
             if (!PendingTeleportsData.playerCommand.contains(player.getUniqueId())) {
                 PendingTeleportsData.addCommandSpam(player.getUniqueId());
                 this.executorServiceCommands.submit(() -> {
-                    player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
-                    TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
-                            () -> JClientTeleportOutput.sendPlayerBack(player.getUniqueId()), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
+                    final String spawnType = "serverspawn";
+                    final String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
+                    this.executorServiceCommands.submit(() -> {
+                        TeleportPlugin.inst().getServer().getScheduler().runTaskAsynchronously(TeleportPlugin.inst(),
+                                () -> JClientTeleportOutput.teleportToSpawnType(player.getUniqueId(), spawnType, serverName, player.getLocation().getWorld().getName()));
+                    });
                 });
             } else {
                 player.sendMessage(GeneralLanguage.global_COMMAND_PENDING);
             }
         } else {
-            player.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
-
+            sender.sendMessage(GeneralLanguage.global_NO_PERMISSIONS);
         }
         return false;
     }

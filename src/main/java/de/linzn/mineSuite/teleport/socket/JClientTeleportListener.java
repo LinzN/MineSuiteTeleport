@@ -57,6 +57,7 @@ public class JClientTeleportListener implements IncomingDataListener {
                 TeleportManager.finishTPA(playerUUID, targetUUID);
             }
 
+
         } catch (IOException e1) {
             e1.printStackTrace();
         }

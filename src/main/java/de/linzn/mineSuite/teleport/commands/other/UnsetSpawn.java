@@ -9,7 +9,7 @@
  *
  */
 
-package de.linzn.mineSuite.teleport.commands;
+package de.linzn.mineSuite.teleport.commands.other;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;
@@ -25,7 +25,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 
-public class SetSpawn implements CommandExecutor {
+public class UnsetSpawn implements CommandExecutor {
     public ThreadPoolExecutor executorServiceCommands = new ThreadPoolExecutor(1, 1, 250L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<>());
 
@@ -36,14 +36,13 @@ public class SetSpawn implements CommandExecutor {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (args.length < 1) {
-                        sender.sendMessage(GeneralLanguage.teleport_SETSPAWN_USAGE);
+                        sender.sendMessage(GeneralLanguage.teleport_UNSETSPAWN_USAGE);
                         return;
                     }
-
                     String spawnType = args[0].toLowerCase();
                     Location coords = player.getLocation();
                     String server = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
-                    JClientTeleportOutput.setSpawnType(player.getUniqueId(), spawnType, server, coords);
+                    JClientTeleportOutput.unsetSpawnType(player.getUniqueId(), spawnType, server, coords.getWorld().getName());
                 }
             });
         } else {

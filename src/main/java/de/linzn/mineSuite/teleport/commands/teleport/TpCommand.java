@@ -9,7 +9,7 @@
  *
  */
 
-package de.linzn.mineSuite.teleport.commands;
+package de.linzn.mineSuite.teleport.commands.teleport;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.core.configurations.YamlFiles.GeneralLanguage;

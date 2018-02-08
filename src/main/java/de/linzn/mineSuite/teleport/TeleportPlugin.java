@@ -14,6 +14,12 @@ package de.linzn.mineSuite.teleport;
 
 import de.linzn.mineSuite.core.MineSuiteCorePlugin;
 import de.linzn.mineSuite.teleport.commands.*;
+import de.linzn.mineSuite.teleport.commands.other.SetSpawn;
+import de.linzn.mineSuite.teleport.commands.other.UnsetSpawn;
+import de.linzn.mineSuite.teleport.commands.teleport.BackCommand;
+import de.linzn.mineSuite.teleport.commands.teleport.LobbyCommand;
+import de.linzn.mineSuite.teleport.commands.teleport.SpawnCommand;
+import de.linzn.mineSuite.teleport.commands.teleport.TpCommand;
 import de.linzn.mineSuite.teleport.listener.TeleportListener;
 import de.linzn.mineSuite.teleport.socket.JClientTeleportListener;
 import org.bukkit.plugin.java.JavaPlugin;
