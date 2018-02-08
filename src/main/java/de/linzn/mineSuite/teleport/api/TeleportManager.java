@@ -97,9 +97,8 @@ public class TeleportManager {
 
     public static void finishTPA(UUID playerUUID, UUID targetUUID) {
         Player player = Bukkit.getPlayer(playerUUID);
-        player.sendMessage(GeneralLanguage.teleport_TELEPORT_TIMER);
-        TeleportPlugin.inst().getServer().getScheduler().runTaskLaterAsynchronously(TeleportPlugin.inst(),
-                () -> JClientTeleportOutput.teleportToPlayerUUID(player.getUniqueId(), targetUUID), (long) MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.TELEPORT_WARMUP);
+        TeleportPlugin.inst().getServer().getScheduler().runTaskAsynchronously(TeleportPlugin.inst(),
+                () -> JClientTeleportOutput.teleportToPlayerUUID(player.getUniqueId(), targetUUID));
 
     }
 
