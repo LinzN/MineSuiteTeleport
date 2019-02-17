@@ -52,12 +52,13 @@ public class TeleportListener implements Listener {
 
     @EventHandler
     public void onPlayerVoidEvent(PlayerMoveEvent e) {
-        if (e.getTo().getBlockY() < 0) {
-            e.setCancelled(true);
-            e.getPlayer().setFallDistance(0F);
-            String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
-            JClientTeleportOutput.teleportToSpawnType(e.getPlayer().getUniqueId(), "serverSpawn", serverName, e.getPlayer().getWorld().getName());
+        if(!MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.VOID_DISABLED_WORLDS.contains(e.getPlayer().getWorld().getName())) {
+            if (e.getTo().getBlockY() < 0) {
+                e.setCancelled(true);
+                e.getPlayer().setFallDistance(0F);
+                String serverName = MineSuiteCorePlugin.getInstance().getMineConfigs().generalConfig.BUNGEE_SERVER_NAME;
+                JClientTeleportOutput.teleportToSpawnType(e.getPlayer().getUniqueId(), "serverSpawn", serverName, e.getPlayer().getWorld().getName());
+            }
         }
     }
-
 }
